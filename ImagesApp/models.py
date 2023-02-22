@@ -3,7 +3,7 @@ import uuid
 
 class ImageModel(models.Model):
     Id_Image = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    Path_To_Folder = models.CharField(max_length=250, blank=True, null=True)
+    #Path_To_Folder = models.CharField(max_length=250, blank=True, null=True)
     Upload_Image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     Type_Of_Image = models.ForeignKey('ImageTypeModel', models.DO_NOTHING, blank=True, null=True)
     Image_Group = models.ForeignKey('ImageGroupModel', verbose_name="Group To Which This Image Belongs To", on_delete=models.DO_NOTHING, blank=True, null=True)
