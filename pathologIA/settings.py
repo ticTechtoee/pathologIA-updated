@@ -23,15 +23,18 @@ AUTH_USER_MODEL = 'AccountsApp.CustomUserModel'
 # Application definition
 
 INSTALLED_APPS = [
+    'AccountsApp.apps.AccountsappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'AccountsApp.apps.AccountsappConfig',
+    #'CasesApp.apps.CasesappConfig',
     'ImagesApp.apps.ImagesappConfig',
     'QuestionsApp.apps.QuestionsappConfig',
+    #'ResultsApp.apps.ResultsappConfig',
+    'VideosApp.apps.VideosappConfig',
 ]
 
 MIDDLEWARE = [

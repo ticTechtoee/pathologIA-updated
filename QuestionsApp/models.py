@@ -11,8 +11,8 @@ class QuestionTypesModel(models.Model):
 
 class QuestionsModel(models.Model):
     Id_Question = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    Question_Number = models.AutoField(primary_key=False, auto_created=True)
-    Question_Text = models.CharField(max_length=250, blank=True, null=True)
+    Question_Number = models.IntegerField(unique=True, editable=False)
+    Question_Text = models.CharField(max_length=1000, blank=True, null=True)
     Question_Marks = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     Correct_Answer = models.CharField(max_length=1, blank=True, null=True, default="A")
     Type_Of_Question = models.ForeignKey('QuestionTypesModel', models.DO_NOTHING, verbose_name="Type of Question", blank=True, null=True)
@@ -22,6 +22,15 @@ class QuestionsModel(models.Model):
     
     def __str__(self):
         return self.Question_Text
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            last_obj = QuestionsModel.objects.all().order_by('-number').first()
+            if last_obj:
+                self.number = last_obj.number + 1
+            else:
+                self.number = 1
+        super().save(*args, **kwargs)
 
 
 class QuestionGroupModel(models.Model):
@@ -40,7 +49,7 @@ class QuestionGroupModel(models.Model):
 class MCQModel(models.Model):
     Id_MCQs = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     Option = models.CharField(max_length=1, blank=True, null=True)
-    Option_Text = models.CharField(max_length=250, blank=True, null=True)
+    Option_Text = models.CharField(max_length=1000, blank=True, null=True)
     Related_Question = models.ForeignKey('QuestionsModel', models.DO_NOTHING, verbose_name="Related Question")
 
     def __str__(self):
