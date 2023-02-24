@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import RoleModel,CustomUserModel
 
-# Register your models here.
+admin.site.register(RoleModel)
+admin.site.register(CustomUserModel)

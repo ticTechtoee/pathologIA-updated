@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import math
 
 # Demarcte Questions or MCQS!
 class QuestionTypesModel(models.Model):
@@ -11,7 +12,7 @@ class QuestionTypesModel(models.Model):
 
 class QuestionsModel(models.Model):
     Id_Question = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    Question_Number = models.IntegerField(unique=True, editable=False)
+    Question_Number = models.PositiveIntegerField(blank=True, null=True)
     Question_Text = models.CharField(max_length=1000, blank=True, null=True)
     Question_Marks = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     Correct_Answer = models.CharField(max_length=1, blank=True, null=True, default="A")
@@ -23,14 +24,18 @@ class QuestionsModel(models.Model):
     def __str__(self):
         return self.Question_Text
     
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            last_obj = QuestionsModel.objects.all().order_by('-number').first()
-            if last_obj:
-                self.number = last_obj.number + 1
-            else:
-                self.number = 1
-        super().save(*args, **kwargs)
+    @classmethod
+    def create(cls, **kwargs):
+        # generate the question_number value
+        last_question = cls.objects.last()
+        if last_question:
+            last_number = int(last_question.question_number.split('-')[-1])
+            question_number = f"Q-{last_number+1:05}"
+        else:
+            question_number = "Q-00001"
+            
+        # create the new question object
+        return cls.objects.create(Question_Number=question_number, **kwargs)
 
 
 class QuestionGroupModel(models.Model):
@@ -39,13 +44,10 @@ class QuestionGroupModel(models.Model):
     Subject_Description = models.CharField(max_length=250, blank=True, null=True)
     Date_Of_Creation = models.DateTimeField(blank=True, null=True)
     Online_Status = models.IntegerField(blank=True, null=True)
-    #Co Educator This Feild needs to be addressed
     Creators_Information = models.ForeignKey('AccountsApp.CustomUserModel', models.DO_NOTHING, blank=True, null=True)
-
     def __str__(self):
         return self.Name_Of_Group
 
-#MCQS Option
 class MCQModel(models.Model):
     Id_MCQs = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     Option = models.CharField(max_length=1, blank=True, null=True)

@@ -13,6 +13,4 @@ class CustomUserModel(AbstractUser):
     Full_Name = models.CharField(max_length=50, blank=True, null=True)
     Mobile_Number = models.CharField(max_length=15, blank=True, null=True)
     Role = models.ForeignKey(RoleModel, on_delete=models.CASCADE, null=True)
-    def __str__(self):
-        return self.Full_Name
 

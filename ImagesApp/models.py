@@ -8,7 +8,7 @@ class ImageModel(models.Model):
     Type_Of_Image = models.ForeignKey('ImageTypeModel', models.DO_NOTHING, blank=True, null=True)
     Image_Group = models.ForeignKey('ImageGroupModel', verbose_name="Group To Which This Image Belongs To", on_delete=models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
-        return self.Type_Of_Image
+        return self.Type_Of_Image.Description
     
 class ImageTypeModel(models.Model):
     Id_Type_Image = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
