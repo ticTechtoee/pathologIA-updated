@@ -16,3 +16,14 @@ class CreateImageForm(forms.ModelForm):
     class Meta:
         model = ImageModel
         fields = ['Upload_Image','Type_Of_Image','Image_Group']
+
+class DeleteImageForm(forms.ModelForm):
+    Image_Group = forms.ModelChoiceField(queryset=ImageGroupModel.objects.all(),
+        label="",
+        empty_label="Selecione a especialidade da imagem",
+        widget=forms.Select(attrs={'class': 'custom-select'}))
+    
+    class Meta:
+        model = ImageModel
+        fields = ['Image_Group']
+        exclude = ['Upload_Image','Type_Of_Image']

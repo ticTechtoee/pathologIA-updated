@@ -22,6 +22,7 @@
   
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous" defer></script>
+  <script src="jquery-3.6.3.min.js"></script>
 
   <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons2/mobirise2.css' %}">
   <link rel="stylesheet" href="{% static 'assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css' %}">
@@ -128,5 +129,21 @@
   <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
   <script src="{% static 'assets/touchswipe/jquery.touch-swipe.min.js' %}"></script>
   <script src="{% static 'assets/theme/js/script.js' %}"></script>  
+  <script type="text/javascript">
+    $(document).ready(function() {
+        // hide the forms when page is ready
+        $('#insert-form-container').hide();
+        $('#delete-form-container').hide();
+    
+        $('#cIncluir').click(function(){ 
+            $('#insert-form-container').show(); 
+            $('#delete-form-container').hide();
+        });
+        $('#cExcluir').click(function(){ 
+          $('#insert-form-container').hide();
+            $('#delete-form-container').show(); 
+        });
+    });
+    </script>
 </body>
 </html>

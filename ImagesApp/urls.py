@@ -4,5 +4,6 @@ from . import views
 app_name = 'ImagesApp'
 
 urlpatterns = [
-    path('Index/', views.ViewIndex, name='IndexView'),
+    path('CreateImage/', views.ViewCreateImage, name='CreateImageView'),
+    path('ImagesGrid/<str:pk>', views.ViewImagesGrid, name='GridImages'),
 ]
