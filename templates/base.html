@@ -129,21 +129,7 @@
   <script src="{% static 'assets/dropdown/js/navbar-dropdown.js' %}"></script>
   <script src="{% static 'assets/touchswipe/jquery.touch-swipe.min.js' %}"></script>
   <script src="{% static 'assets/theme/js/script.js' %}"></script>  
-  <script type="text/javascript">
-    $(document).ready(function() {
-        // hide the forms when page is ready
-        $('#insert-form-container').hide();
-        $('#delete-form-container').hide();
-    
-        $('#cIncluir').click(function(){ 
-            $('#insert-form-container').show(); 
-            $('#delete-form-container').hide();
-        });
-        $('#cExcluir').click(function(){ 
-          $('#insert-form-container').hide();
-            $('#delete-form-container').show(); 
-        });
-    });
-    </script>
+  {% block page_custom_js %}
+  {% endblock page_custom_js %}
 </body>
 </html>

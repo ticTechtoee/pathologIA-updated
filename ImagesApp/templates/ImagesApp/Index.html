@@ -9,13 +9,11 @@
       <h2>Cadastro de Imagens</h2>
       <div class="btn-group btn-group-toggle" id="cButtons" data-toggle="buttons">
 
-        <input type="button" class="btn btn-info" name="options" id="cIncluir" value="Incluir" onclick="">
+        <input type="button" class="btn btn-info" name="options" id="cIncluir" value="Incluir">
 
         <input type="button" class="btn btn-info" name="options" id="cAlterar" value="Alterar">
 
         <input type="button" class="btn btn-info" name="options" id="cExcluir" value="Excluir">
-
-
 
         <input type="button" class="btn btn-info" name="options" id="cPesquisar" value="Limpar">
 
@@ -33,59 +31,43 @@
             </div>
           </div>
 
-          <!-- <div class="form-floating mb-3">
-                      <input type="date" class="form-control" id="cIdDataImg" name="tIdDataImg" placeholder="Data do cadastro da imagem">
-                      <label for="cIdDataImg" class="form-label">Data do Cadastro da Imagem</label>
-                  </div>  -->
-          <!-- <div class="form-floating mb-3">
-                        <textarea class="form-control" id="cDiag" name="tDiag" rows="5" placeholder="Digite o Diagnóstico da imagem ..."></textarea>
-                        <label for="cDiag" class="form-label">Diagnóstico da imagem</label>
-                    </div> -->
-
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="tipoOp">Tipo</label>
             </div>
-            <!-- <select class="custom-select" id="tipoOp">
-                          <option selected>Tipo da Imagem ...</option>
-                          <option value="1">Mamografia</option>
-                          <option value="2">Raio X</option>
-                          <option value="3">Ressonância Magnética</option>
-                          <option value="4">Tomografia Computadorizada</option>
-                          <option value="5">Ultra Som</option>
-                        </select> -->
+            
             {{form.Type_Of_Image}}
           </div>
-          <!-- <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <label class="input-group-text" for="nivel">Tipo Arquivo</label>
-                        </div>
-                        <select class="custom-select" id="tipoArq">
-                          <option selected>Tipo de Arquivo ...</option>
-                          <option value="1">DCM</option>
-                          <option value="2">PNG</option>
-                          <option value="3">TIF</option>
-                          <option value="4">JPG</option>
-                        </select> 
-                      </div> -->
+          
           <div class="input-group mb-3">
             <div class="input-group-prepend">
               <label class="input-group-text" for="espec">Especialidade</label>
             </div>
-            <!-- <select class="custom-select" id="espec">
-                          <option selected>Selecione a especialidade da imagem ...</option>
-                          <option value="1">Cardiologia</option>
-                          <option value="2">Neurologia</option>
-                          <option value="3">Pneumologia</option>
-                          <option value="4">Urologia</option>
-                        </select> -->
+            
             {{form.Image_Group}}
           </div>
           <input type="submit" value="submit" class="btn btn-submit active">
         </form>
       </div>
+
+
+
       <div id="delete-form-container" style="display:none;">
         <form id="delete-form" method="POST">
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="espec">Especialidade</label>
+            </div>
+            {{delteImageform.Image_Group}}
+          </div>
+          <input type="submit" value="submit" name="btnSubmitFormDelete" class="btn btn-active">
+        </form>
+
+      </div>
+
+      <div id="edit-form-container" style="display:none;">
+        <form id="edit-form" method="POST">
           {% csrf_token %}
           <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -100,7 +82,7 @@
                         </select> -->
             {{delteImageform.Image_Group}}
           </div>
-          <input type="submit" value="submit" name="btnSubmitFormDelete" class="btn btn-active">
+          <input type="submit" value="submit" name="btnSubmitFormEdit" class="btn btn-active">
         </form>
 
       </div>
@@ -117,3 +99,35 @@
 </div>
 
 {% endblock content %}
+{% block page_custom_js %}
+<script type="text/javascript">
+  $(document).ready(function() {
+      // hide the forms when page is ready
+      $('#delete-form-container').hide();
+      $('#edit-form-container').hide();
+  
+      $('#cIncluir').click(function(){ 
+          $('#insert-form-container').show(); 
+          $('#edit-form-container').hide(); 
+          $('#delete-form-container').hide();
+      });
+      $('#cExcluir').click(function(){ 
+        $('#insert-form-container').hide();
+        $('#edit-form-container').hide(); 
+          $('#delete-form-container').show(); 
+      });
+
+      $('#cAlterar').click(function(){ 
+          $('#insert-form-container').hide();
+            $('#delete-form-container').hide(); 
+            $('#edit-form-container').show(); 
+        });
+  });
+
+
+  document.getElementById('cPesquisar').addEventListener('click', function() {
+    location.reload();});
+
+
+  </script>
+{% endblock page_custom_js %}
