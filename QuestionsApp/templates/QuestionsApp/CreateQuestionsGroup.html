@@ -24,56 +24,50 @@
                     <input type="radio" name="options" id="cPesquisar" autocomplete="off"> Limpar
                     </label>
                 </div>
-                <!-- Parâmetro  enctype="multipart/form-data" permite o preview da imagem-->
-                <form enctype="multipart/form-data">
+              
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="cIdQuiz" name="tIdQuiz" placeholder="Identificação do Questionário">
+                        
+                        <!-- <input type="number" class="form-control" id="cIdQuiz" name="tIdQuiz" placeholder="Identificação do Questionário"> -->
                         <label for="cIdQuiz" class="form-label">Identificação do Questionário</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                      <input type="text" class="form-control" id="cTitQuiz" name="tTitQuiz" placeholder="Título do questionário">
-                      <label for="cTitQuiz" class="form-label">Título do questionário</label>
+                        {{form.Name_Of_Group}}
+                        <!-- <input type="text" class="form-control" id="cTitQuiz" name="tTitQuiz" placeholder="Título do questionário"> -->
+                        <label for="cTitQuiz" class="form-label">Título do questionário</label>
                     </div>
-
+                    
                     <div class="form-floating mb-3">
-                      <textarea class="form-control" id="cAssQuiz" name="tAssQuiz" rows="5" placeholder="Descrição do assunto do questionário"></textarea>
+                        {{form.Subject_Description}}
+                      <!-- <textarea class="form-control" id="cAssQuiz" name="tAssQuiz" rows="5" placeholder="Descrição do assunto do questionário"></textarea> -->
                       <label for="cAssQuiz" class="form-label">Descrição do assunto do questionário</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" id="cIdDataQuiz" name="tIdDataQuiz" placeholder="Data do cadastro do Questionário">
+                        {{form.Date_Of_Creation}}
+                        <!-- <input type="date" class="form-control" id="cIdDataQuiz" name="tIdDataQuiz" placeholder="Data do cadastro do Questionário"> -->
                         <label for="cIdDataQuiz" class="form-label">Data do Questionário</label>
                     </div>     
-                    
-                    <div class="input-group mb-3">
-                      <div class="input-group-prepend">
-                        <label class="input-group-text" for="cProf">Professor</label>
-                      </div>
-                      <select class="custom-select" id="cProf">
-                        <option selected>Selecione o Professor ...</option>
-                        <option value="1">Sílvia Martini</option>
-                        <option value="2">Márcia Bissaco</option>
-                        <option value="3">Alessandro Silva</option>
-                        <option value="4">Silvia Boschi</option>
-                      </select>
-                    </div>
 
                     <div class="form-floating md-3">
                         <p><b>Selecione o Status do Questionário</b></p>
+                    
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="cIdAberto" name="status" value="cIdAberto" checked>
+                            <input class="form-check-input" type="radio" id="cIdAberto" name="status" value="0" checked>
                             <label class="form-check-label" for="cIdAberto" >Aberto</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="cIdFechado" name="status" value="cIdFechado">
+                            <input class="form-check-input" type="radio" id="cIdFechado" name="status" value="1">
                             <label class="form-check-label" for="cIdFechado" >Fechado</label>
                         </div>
                     </div>
 
                     <div>
-                        <a href="{% url 'QuestionsApp:CreateQuestionView' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Elaborar Questões</a>
-                        <!-- <input type="submit" class="btn btn-primary" value="Elaborar Questões"> -->
+                        <!-- <a href="{% url 'QuestionsApp:CreateQuestionView' %}" class="btn btn-primary btn-lg active" role="submit" type="submit" aria-pressed="true">Elaborar Questões</a> -->
+                    <input type="submit" class="btn btn-primary btn-lg active" value="Elaborar Questões">
+                    
                     </div>
                 </form>
         </div>

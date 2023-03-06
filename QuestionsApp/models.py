@@ -42,7 +42,7 @@ class QuestionGroupModel(models.Model):
     Id_QuestionGroup = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     Name_Of_Group = models.CharField(max_length=150, blank=True, null=True)
     Subject_Description = models.CharField(max_length=250, blank=True, null=True)
-    Date_Of_Creation = models.DateTimeField(blank=True, null=True)
+    Date_Of_Creation = models.DateField(blank=True, null=True)
     Online_Status = models.IntegerField(blank=True, null=True)
     Creators_Information = models.ForeignKey('AccountsApp.CustomUserModel', models.DO_NOTHING, blank=True, null=True)
     def __str__(self):

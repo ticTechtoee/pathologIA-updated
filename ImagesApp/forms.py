@@ -1,6 +1,5 @@
-from .models import ImageModel
-from django import forms
 from .models import ImageModel, ImageTypeModel, ImageGroupModel
+from django import forms
 
 class CreateImageForm(forms.ModelForm):
     Upload_Image = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'class': 'custom-file-input', 'id': 'imagem', 'accept': 'image/bmp, image/jpeg, image/png, image/tiff', 'draggable': 'false', 'aria-describedby': 'inputFileAddon', 'onchange': 'previewImage()'}))
