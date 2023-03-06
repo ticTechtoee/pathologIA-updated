@@ -59,7 +59,7 @@
           </button>
           <!-- Menu Inicio -->
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-warning display-4" href="index.html"><span class="mobi-mbri mobi-mbri-home mbr-iconfont mbr-iconfont-btn"></span>Início</a></li>
+              <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-warning display-4" href="{% url 'HomeApp:HomePageView' %}"><span class="mobi-mbri mobi-mbri-home mbr-iconfont mbr-iconfont-btn"></span>Início</a></li>
                   
                   <!-- Menu Cadastro -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-database mbr-iconfont mbr-iconfont-btn"></span>Cadastro</a>
@@ -79,7 +79,7 @@
 
                       <!-- Submenu Estudante e Professor -->
                       <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="quiz.html">Estudante<br></a>
-                      <a class="dropdown-item text-warning display-4" href="questionarioProf.html" aria-expanded="false"><p>Professor</p></a></div></li>
+                      <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Professor</p></a></div></li>
                   
                       <!-- Menu Estudos -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-layers mbr-iconfont mbr-iconfont-btn"></span>Estudos</a>

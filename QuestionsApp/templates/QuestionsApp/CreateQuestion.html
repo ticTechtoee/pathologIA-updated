@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container col-11 md-9" id="form-container">
+    <!-- O conteúdo da linha será alinhado ao centro e teremos espaço de 5 colunas entre o texto e a figura -->
+    <div class="row align-items-center-gx-5">
+        <!-- Na tela responsiva a ordem 2 significa que a imagem ficará abaixo do texto quando reduzida -->
+        <div class="col-md-6 order-md-2">
+            <h2>Elaboração das Questões</h2>
+                <div class="btn-group btn-group-toggle" id="cButtons" data-toggle="buttons">
+                    <label class="btn btn-info active">
+                    <input type="radio" name="options" id="cIncluir" autocomplete="off" checked> Incluir
+                    </label>
+
+                    <label class="btn btn-info">
+                    <input type="radio" name="options" id="cAlterar" autocomplete="off" disabled>Alterar
+                    </label>
+                    
+                    <label class="btn btn-info">
+                    <input type="radio" name="options" id="cExcluir" autocomplete="off" disabled> Excluir
+                    </label>
+                    
+                    <label class="btn btn-info">
+                    <input type="radio" name="options" id="cPesquisar" autocomplete="off"> Limpar
+                    </label>
+                </div>
+                <!-- Parâmetro  enctype="multipart/form-data" permite o preview da imagem-->
+                <form enctype="multipart/form-data">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="cIdQuestao" name="tIdQuestao" placeholder="Identificação da imagem">
+                        <label for="cIdQuestao" class="form-label">Identificação da Questão</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="cIdQuest" name="tIdQuest" placeholder="Número do Questionário">
+                        <label for="cIdQuest" class="form-label">Número do Questionário</label>
+                      </div>
+
+                    <div class="form-floating mb-3">
+                      <input type="number" class="form-control" id="cIdNQuestao" name="tIdNQuestao" placeholder="Número da Questão">
+                      <label for="cIdNQuestao" class="form-label">Número da Questão</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                      <textarea class="form-control" id="cDesc" name="tDesc" rows="5" placeholder="Descrição do assunto do questionário"></textarea>
+                      <label for="cDesc" class="form-label">Descrição da Questão</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="cIdPeso" name="tIdPeso" min="0" value="1" step="0.5" placeholder="0.00">
+                        <label for="cIdPeso" class="form-label">Valor da Questão</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <div class="custom-file" id="cFile">
+                          <input type="file" class="custom-file-input" id="imagem" name="imagem" accept="image/bmp, image/jpeg, image/png, image/tiff" draggable="false" aria-describedby="inputFileAddon" onchange="previewImage()">
+                          <label class="custom-file-label" for="imagem">Escolher arquivo da imagem</label>
+                        </div>
+                    </div>
+                    
+                     <!-- Escolha do arquivo da imagem-->
+                     <!-- Parâmetro  enctype="multipart/form-data" permite o preview da imagem-->
+                   
+                    <div class="form-floating mb-3">
+                        
+                        <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/jVk-NUV6CkE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>-->
+                        
+                        <!-- <input type="file" class="form-control-file" id="vid" name="vid" accept="video/mp4" required>
+                        <div class="invalid-feedback">Campo Obrigatório.</div>
+                        <div id="embed-video" style="text-align:center;">
+                            <video width="480" controls>
+                               <source src="videos/Por dentro de Imagens Médicas.mp4" id="vid">
+                                  Seu navegador não suporta vídeo HTML5.
+                             </video>
+                          </div> -->
+                    </div>
+                    <div>
+                        <a href="{% url 'QuestionsApp:CreateOptionView' %}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Alternativas</a>
+                        <!-- <a href="Alterantivas.html" class="btn btn-info" role="button">Alternativas</a> -->
+                        <!-- <button type="button" class="btn btn-link">Próximo</button> -->
+                        <!-- <input type="submit" class="btn btn-primary" value="Próximo"> -->
+                    </div>
+                </form>
+        </div>
+        
+        <div class="col-md-6 order-md-1">
+            <div class="col-12">
+                <img src="{% static 'assets/img/selecao.png' %}" draggable="false" alt="Questões" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
