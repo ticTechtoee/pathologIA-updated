@@ -39,7 +39,15 @@ class QuestionsModel(models.Model):
 
 
 class QuestionGroupModel(models.Model):
+    def number():
+        no = QuestionGroupModel.objects.count()
+        if no == None:
+            return 1
+        else:
+            return no + 1
+        
     Id_QuestionGroup = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
+    Group_Number = models.IntegerField(unique=True, default=number)
     Name_Of_Group = models.CharField(max_length=150, blank=True, null=True)
     Subject_Description = models.CharField(max_length=250, blank=True, null=True)
     Date_Of_Creation = models.DateField(blank=True, null=True)
