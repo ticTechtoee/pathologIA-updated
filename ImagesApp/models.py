@@ -2,13 +2,20 @@ from django.db import models
 import uuid
 
 class ImageModel(models.Model):
+    def number():
+        no = ImageModel.objects.count()
+        if no == None:
+            return 1
+        else:
+            return no + 1
     Id_Image = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     #Path_To_Folder = models.CharField(max_length=250, blank=True, null=True)
+    Image_Number = models.IntegerField(unique=True, default=number)
     Upload_Image = models.ImageField(upload_to='question_images/', null=True, blank=True)
     Type_Of_Image = models.ForeignKey('ImageTypeModel', models.DO_NOTHING, blank=True, null=True)
     Image_Group = models.ForeignKey('ImageGroupModel', verbose_name="Group To Which This Image Belongs To", on_delete=models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
-        return self.Type_Of_Image.Description
+        return str(self.Image_Number)
     
 class ImageTypeModel(models.Model):
     Id_Type_Image = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)

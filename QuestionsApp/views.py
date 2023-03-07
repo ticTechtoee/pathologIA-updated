@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import CreateQuestionGroupForm
+from .forms import CreateQuestionGroupForm,CreateQuestionsForm
 from .models import QuestionGroupModel
+from ImagesApp.models import ImageModel
 
 
 def ViewCreateQuestionGroup(request):
@@ -19,6 +20,7 @@ def ViewCreateQuestionGroup(request):
             ins.Creators_Information = Creator
 
             ins.save()
+            return redirect('QuestionsApp:CreateQuestionView')
         else:
             print(form.errors)
     context = {'form':form, 'Questionnaire_Information': Questionnaire_Objects}
@@ -42,7 +44,18 @@ def ViewDeleteQuestionGroup(request, pk):
 
 
 def ViewCreateQuestion(request):
-    return render(request, 'QuestionsApp/CreateQuestion.html')
+    form = CreateQuestionsForm()
+    if request.method == 'POST':
+        form = CreateQuestionsForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+    context = {'form':form}
+    return render(request, 'QuestionsApp/CreateQuestion.html', context)
+
+def ViewImagesGrid(request):
+    all_images = ImageModel.objects.all()
+    context = {'list_of_images':all_images}
+    return render(request, 'QuestionsApp/referencestemplates/ImagesGrid.html', context)
 
 def ViewCreateOption(request):
     return render(request, 'QuestionsApp/CreateOption.html')
