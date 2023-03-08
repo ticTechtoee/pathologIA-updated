@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm
+from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm
 from .models import QuestionGroupModel, QuestionsModel
 from ImagesApp.models import ImageModel
 
@@ -60,7 +60,7 @@ def ViewCreateQuestion(request):
             form = CreateQuestionsForm(request.POST or None)
             if form.is_valid():
                 form.save()
-                return redirect('QuestionsApp:CreateQuestionView')
+                return redirect('QuestionsApp:CreateOptionView')
     context = {'form':form, 'eidtform':editForm}
     return render(request, 'QuestionsApp/CreateQuestion.html', context)
 
@@ -86,4 +86,27 @@ def ViewImagesGrid(request):
     return render(request, 'QuestionsApp/referencestemplates/ImagesGrid.html', context)
 
 def ViewCreateOption(request):
-    return render(request, 'QuestionsApp/CreateOption.html')
+    form = CreateOptionForm()
+    if request.method == 'POST':
+        if 'btnCreateAnother' in request.POST:
+            form = CreateOptionForm(request.POST or None)
+            if form.is_valid():
+                instance = form.save(commit = False)
+                is_right = request.POST.get('status')
+                instance.Is_Right = is_right
+                instance.save()
+                return redirect('QuestionsApp:CreateOptionView')
+            else:
+                print(form.errors)
+        elif 'btnFinish' in request.POST:
+            form = CreateOptionForm(request.POST or None)
+            if form.is_valid():
+                instance = form.save(commit = False)
+                is_right = request.POST.get('status')
+                instance.Is_Right = is_right
+                instance.save()
+                return redirect('QuestionsApp:CreateQuestionView')
+            else:
+                print(form.errors)
+    context = {'form':form}
+    return render(request, 'QuestionsApp/CreateOption.html', context)
