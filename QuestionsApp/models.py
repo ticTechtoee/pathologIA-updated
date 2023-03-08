@@ -53,7 +53,7 @@ class MCQModel(models.Model):
     Id_MCQs = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     Option = models.CharField(max_length=1, blank=True, null=True)
     Option_Text = models.CharField(max_length=1000, blank=True, null=True)
-    #Is_Right = models.BooleanField(default=False)
+    Is_Right = models.BooleanField(default=False)
     Related_Question = models.ForeignKey('QuestionsModel', models.DO_NOTHING, verbose_name="Related Question")
 
     def __str__(self):

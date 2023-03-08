@@ -9,6 +9,8 @@ urlpatterns = [
     path('DeleteQuestionGroup/<str:pk>/', views.ViewDeleteQuestionGroup, name='DeleteQuestionGroupView'),
     path('CreateQuestion/', views.ViewCreateQuestion, name='CreateQuestionView'),
     path('ImagesGrid/', views.ViewImagesGrid, name='ImagesGridView'),
+    path('EditQuestion/<str:question_number>', views.ViewEditQuestion, name='EditQuestionView'),
+    path('DeleteQuestion/<str:question_number>', views.ViewDeleteQuestion, name='DeleteQuestionView'),
 
     path('CreateOption/', views.ViewCreateOption, name='CreateOptionView'),
 

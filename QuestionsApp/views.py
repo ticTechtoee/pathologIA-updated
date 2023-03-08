@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import CreateQuestionGroupForm,CreateQuestionsForm
-from .models import QuestionGroupModel
+from django.urls import reverse
+from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm
+from .models import QuestionGroupModel, QuestionsModel
 from ImagesApp.models import ImageModel
 
 
@@ -45,12 +46,39 @@ def ViewDeleteQuestionGroup(request, pk):
 
 def ViewCreateQuestion(request):
     form = CreateQuestionsForm()
+    editForm = EditQuestionsForm()
     if request.method == 'POST':
-        form = CreateQuestionsForm(request.POST or None)
+        if 'editButton' in request.POST:
+            editForm = EditQuestionsForm(request.POST or None)
+            get_question_number = request.POST.get('Question_Number')
+            return redirect(reverse('QuestionsApp:EditQuestionView', kwargs={'question_number': str(get_question_number)} ))
+        elif 'deleteButton' in request.POST:
+            editForm = EditQuestionsForm(request.POST or None)
+            get_question_number = request.POST.get('Question_Number')
+            return redirect(reverse('QuestionsApp:DeleteQuestionView', kwargs={'question_number': str(get_question_number)} ))
+        else:
+            form = CreateQuestionsForm(request.POST or None)
+            if form.is_valid():
+                form.save()
+                return redirect('QuestionsApp:CreateQuestionView')
+    context = {'form':form, 'eidtform':editForm}
+    return render(request, 'QuestionsApp/CreateQuestion.html', context)
+
+def ViewEditQuestion(request,question_number):
+    question_obj = QuestionsModel.objects.get(Question_Number = question_number)
+    form = CreateQuestionsForm(instance=question_obj)
+    if request.method == 'POST':
+        form = CreateQuestionsForm(request.POST or None, instance=question_obj)
         if form.is_valid():
             form.save()
-    context = {'form':form}
-    return render(request, 'QuestionsApp/CreateQuestion.html', context)
+            return redirect('QuestionsApp:CreateQuestionView')
+    context={'form':form}
+    return render(request,'QuestionsApp/CreateQuestion.html', context)
+
+def ViewDeleteQuestion(request, question_number):
+    question_to_delete = QuestionsModel.objects.get(Question_Number = question_number)
+    question_to_delete.delete()
+    return redirect('QuestionsApp:CreateQuestionView')
 
 def ViewImagesGrid(request):
     all_images = ImageModel.objects.all()

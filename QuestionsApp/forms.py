@@ -32,5 +32,12 @@ class CreateQuestionsForm(forms.ModelForm):
     Video_For_Question = forms.ModelChoiceField(required=False,queryset=VideoModel.objects.all(), label="", empty_label="Selecione o número do vídeo", widget=forms.Select(attrs={'class': 'custom-select'}))
     class Meta:
         model = QuestionsModel
-        fields = ['Question_Text', 'Question_Marks', 'Group_Name_Of_Quesitons']
-        exclude = ['Id_Question','Image_For_Question','Video_For_Question','Question_Number', 'Type_Of_Question']
+        fields = ['Question_Text', 'Question_Marks', 'Group_Name_Of_Quesitons','Image_For_Question','Video_For_Question']
+        exclude = ['Id_Question','Question_Number', 'Type_Of_Question']
+
+class EditQuestionsForm(forms.ModelForm):
+    Question_Number = forms.ModelChoiceField(queryset=QuestionsModel.objects.values_list('Question_Number', flat=True).distinct().order_by('Question_Number'),label="", empty_label="Selecione o número da pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
+    class Meta:
+        model = QuestionsModel
+        fields = ['Question_Number']
+        exclude = ['Id_Question','Question_Marks','Group_Name_Of_Quesitons','Image_For_Question','Video_For_Question','Question_Number', 'Type_Of_Question']
