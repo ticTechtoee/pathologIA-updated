@@ -46,3 +46,11 @@ class CreateOptionForm(forms.ModelForm):
         model = MCQModel
         fields = ['Related_Question','Option_Text','Option']
         exclude = ['Is_Right']
+
+class EditOptionForm(forms.ModelForm):
+    Related_Question = forms.ModelChoiceField(queryset=QuestionsModel.objects.all(),label="", empty_label="Selecione o número da pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
+    class Meta:
+        model = MCQModel
+        fields = ['Related_Question']
+        exclude = ['Is_Right','Option_Text','Option']
+

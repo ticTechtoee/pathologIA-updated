@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm
-from .models import QuestionGroupModel, QuestionsModel
+from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm,EditOptionForm
+from .models import QuestionGroupModel, QuestionsModel,MCQModel
 from ImagesApp.models import ImageModel
 
 
@@ -87,6 +87,8 @@ def ViewImagesGrid(request):
 
 def ViewCreateOption(request):
     form = CreateOptionForm()
+
+    editForm = EditOptionForm()
     if request.method == 'POST':
         if 'btnCreateAnother' in request.POST:
             form = CreateOptionForm(request.POST or None)
@@ -108,5 +110,26 @@ def ViewCreateOption(request):
                 return redirect('QuestionsApp:CreateQuestionView')
             else:
                 print(form.errors)
-    context = {'form':form}
+        elif 'btnEdit' in request.POST:
+            editForm = EditOptionForm(request.POST or None)
+            if editForm.is_valid():
+                info = request.POST.get('Related_Question')
+                return redirect(reverse('QuestionsApp:EditOptionView', kwargs={'pk': info}))
+    context = {'form':form,'editForm':editForm}
     return render(request, 'QuestionsApp/CreateOption.html', context)
+
+def ViewEditOption(request, pk):
+    get_option_value = MCQModel.objects.filter(Related_Question__Id_Question = pk).order_by('Option')
+    if request.method == 'POST':
+        for option in get_option_value:
+            option_text = request.POST.get(str(option.Id_MCQs))
+            option.Option_Text = option_text
+            option.save()
+        return redirect('QuestionsApp:CreateOptionView')
+    context = {'options':get_option_value}
+    return render(request, 'QuestionsApp/EditOption.html', context)
+
+def ViewDeleteOption(request, pk):
+    get_option = MCQModel.objects.get(Id_MCQs = pk)
+    get_option.delete()
+    return redirect('QuestionsApp:CreateOptionView')

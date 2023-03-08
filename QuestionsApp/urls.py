@@ -13,5 +13,8 @@ urlpatterns = [
     path('DeleteQuestion/<str:question_number>', views.ViewDeleteQuestion, name='DeleteQuestionView'),
 
     path('CreateOption/', views.ViewCreateOption, name='CreateOptionView'),
+    path('EditOption/<str:pk>', views.ViewEditOption, name='EditOptionView'),
+    path('DeleteOption/<str:pk>', views.ViewDeleteOption, name='DeleteOptionView'),
+
 
 ]
