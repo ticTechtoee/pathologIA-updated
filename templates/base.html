@@ -56,7 +56,7 @@
       <div class="container-fluid">
           <div class="navbar-brand">
               
-              <span class="navbar-caption-wrap"><a class="navbar-caption text-warning display-7" href="https://mobiri.se">patologIA</a></span>
+              <span class="navbar-caption-wrap"><a class="navbar-caption text-warning display-7" href="{% url 'HomeApp:HomePageView' %}">patologIA</a></span>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
               <div class="hamburger">
@@ -87,7 +87,7 @@
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Questionários</a>
 
                       <!-- Submenu Estudante e Professor -->
-                      <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="quiz.html">Estudante<br></a>
+                      <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:GetQuestionnaireListView' %}">Estudante<br></a>
                       <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Professor</p></a></div></li>
                   
                       <!-- Menu Estudos -->
