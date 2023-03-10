@@ -33,9 +33,17 @@ def ViewEditQuestionGroup(request, pk):
     if request.method == 'POST':
         form = CreateQuestionGroupForm(request.POST, instance=question_obj)
         if form.is_valid():
-            form.save()
+            ins = form.save(commit=False)
+            
+            Status = request.POST.get('status')
+            ins.Online_Status = Status
+
+            Creator = request.user
+            ins.Creators_Information = Creator
+
+            ins.save()
             return redirect('QuestionsApp:CreateQuestionGroupView')
-    context = {'form':form}
+    context = {'form':form, 'Online_Status':str(question_obj.Online_Status)}
     return render(request, 'QuestionsApp/CreateQuestionsGroup.html', context)
 
 def ViewDeleteQuestionGroup(request, pk):

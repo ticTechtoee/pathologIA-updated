@@ -1,0 +1,12 @@
+{% for question, options in questions_with_options.items %}
+  <h2>{{ question.Question_Text }}</h2>
+  {% if question.Image_For_Question.Upload_Image %}
+  <img style="width: 20%;" src="{{question.Image_For_Question.Upload_Image.url}}" alt="No Image">
+ {% endif %}
+  <ul>
+    {% for option in options %}
+      <input type="radio" id="options" value="{{ option.Option_Text }}">
+      <label for="options">{{ option.Option_Text }}</label>
+    {% endfor %}
+  </ul>
+{% endfor %}
