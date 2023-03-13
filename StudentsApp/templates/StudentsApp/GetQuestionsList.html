@@ -23,6 +23,10 @@
   <h3>Your Answer was wrong you have 1 more try</h3>
   {% endif %}
   <h2>{{Question.Question_Text}}</h2>
+  {% if Question.Image_For_Question.Upload_Image %}
+<img style="width: 20%;" src="{{ Question.Image_For_Question.Upload_Image.url }}" alt="No Image">
+{% endif %}
+</br>
   {% for option in Options %}
   <input type="radio" id="Id_Question_Option" name="Question_Option" value="{{option.Is_Right}}">
   <label for="Question_Option">{{ option.Option_Text }}</label>
