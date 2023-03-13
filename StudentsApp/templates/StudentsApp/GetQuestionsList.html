@@ -1,12 +1,32 @@
-{% for question, options in questions_with_options.items %}
-  <h2>{{ question.Question_Text }}</h2>
-  {% if question.Image_For_Question.Upload_Image %}
-  <img style="width: 20%;" src="{{question.Image_For_Question.Upload_Image.url}}" alt="No Image">
- {% endif %}
-  <ul>
-    {% for option in options %}
-      <input type="radio" id="options" value="{{ option.Option_Text }}">
-      <label for="options">{{ option.Option_Text }}</label>
-    {% endfor %}
-  </ul>
+<!-- <form action="" method="post">
+  {% csrf_token %}
+<h2>{{ current_question.Question_Text }}</h2>
+{% if current_question.Image_For_Question.Upload_Image %}
+<img style="width: 20%;" src="{{ current_question.Image_For_Question.Upload_Image.url }}" alt="No Image">
+{% endif %}
+<ul>
+{% for option in current_question_options %}
+<div>
+<input type="radio" id="{{ forloop.counter }}" name="{{ current_question.Question_Text }}" value="{{ option.Option_Text }}" />
+<label for="{{ current_question.Question_Text }}">{{ option.Option_Text }}</label>
+</div>
 {% endfor %}
+</ul>
+<input type="hidden" value="{{next_question_id}}" name="question_id" id="">
+<!-- <a type="submit" href="?question_id={{ next_question_id }}">Next question</a> -->
+<!-- <input type="submit" value="submit"> -->
+<!-- </form> -->
+
+<form action="" method="post">
+  {% csrf_token %}
+  {% if wrong_answer %}
+  <h3>Your Answer was wrong you have 1 more try</h3>
+  {% endif %}
+  <h2>{{Question.Question_Text}}</h2>
+  {% for option in Options %}
+  <input type="radio" id="Id_Question_Option" name="Question_Option" value="{{option.Is_Right}}">
+  <label for="Question_Option">{{ option.Option_Text }}</label>
+
+  {% endfor %}
+  <input type="submit" value="submit">
+</form>
