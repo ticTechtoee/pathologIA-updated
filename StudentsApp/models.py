@@ -15,5 +15,5 @@ class StudentPerformance(models.Model):
     Student_Information = models.ForeignKey('AccountsApp.CustomUserModel', on_delete=models.DO_NOTHING)
     Question_Information = models.ForeignKey('QuestionsApp.QuestionsModel', on_delete=models.DO_NOTHING)
     Question_Group_Information = models.ForeignKey('QuestionsApp.QuestionGroupModel', on_delete=models.DO_NOTHING, default=QuestionGroupModel.objects.first().pk)
-    Score = models.DecimalField(max_digits=10, decimal_places=2)
+    Score_Per_Question = models.DecimalField(max_digits=10, decimal_places=2)
     Completed_At = models.DateTimeField(default=timezone.now())

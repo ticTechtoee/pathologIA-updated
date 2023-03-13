@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from QuestionsApp.models import QuestionsModel, QuestionGroupModel,MCQModel
 from StudentsApp.models import StudentPerformance
+from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -102,6 +103,9 @@ def ViewGetQuestionnaireList(request):
 #     return render(request, 'StudentsApp/GetQuestionsList.html', context) 
 
 def ViewGetQuestionsList(request, pk):
+    Get_Student_Information = CustomUserModel.objects.get(Id_User = request.user.Id_User)
+    Get_Group_Information = QuestionGroupModel.objects.get(Id_QuestionGroup = pk)
+    Get_Question_Information = None
     List_Of_Questions = list(QuestionsModel.objects.filter(Group_Name_Of_Quesitons=pk))
     List_Of_Options = {}
     context = {}
@@ -114,6 +118,7 @@ def ViewGetQuestionsList(request, pk):
         request.session['tries'] = 2
 
     get_index = int(request.session['index'])
+    Get_Question_Information = List_Of_Questions[get_index]
     tries = request.session.get('tries')
 
     if request.method == 'POST':
@@ -125,6 +130,8 @@ def ViewGetQuestionsList(request, pk):
             score += question_marks if tries == 2 else question_marks/2
             print('1: '+str(score))
             # Add Model here
+            save_performance =StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = score)
+            save_performance.save()
         if selected_option == "False":
             if tries is None:
                 tries = request.session.get('tries')
@@ -141,6 +148,8 @@ def ViewGetQuestionsList(request, pk):
                     List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
                     print('2: '+str(score))
                     # Add Model Here
+                    save_performance =StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = score)
+                    save_performance.save()
                     context = {'Question':List_Of_Questions[get_index], 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries')}
                     return render(request, 'StudentsApp/GetQuestionsList.html', context)
             else:
