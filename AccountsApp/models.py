@@ -10,7 +10,8 @@ class RoleModel(models.Model):
 
 class CustomUserModel(AbstractUser):
     Id_User = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
-    Full_Name = models.CharField(max_length=50, blank=True, null=True)
-    Mobile_Number = models.CharField(max_length=15, blank=True, null=True)
+    Mobile_Number = models.CharField(max_length=14, blank=True, null=True)
     Role = models.ForeignKey(RoleModel, on_delete=models.CASCADE, null=True)
+    Accept_Terms_of_Services = models.BooleanField(default=False)
+    Receive_News = models.BooleanField(default=False)
 

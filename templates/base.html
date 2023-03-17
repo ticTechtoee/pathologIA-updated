@@ -102,8 +102,11 @@
                   <li class="nav-item"><a class="nav-link link text-warning display-4" href="forum.html"><span class="mbrib-chat mbr-iconfont mbr-iconfont-btn"></span>Fórum</a></li>
                   
                   <!-- Menu Login -->
-                  <li class="nav-item"><a class="nav-link link text-warning display-4" href="login.html" aria-expanded="true"><span class="mobi-mbri mobi-mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>Login</a></li></ul>
-              
+                  {% if user.is_authenticated %}
+                  <li class="nav-item"><a class="nav-link link text-warning display-4" href="{% url 'AccountsApp:LogOutView' %}" aria-expanded="true"><span class="mobi-mbri mobi-mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>Logout</a></li></ul>
+                  {% else %}
+                  <li class="nav-item"><a class="nav-link link text-warning display-4" href="{% url 'AccountsApp:LogInView' %}" aria-expanded="true"><span class="mobi-mbri mobi-mbri-unlock mbr-iconfont mbr-iconfont-btn"></span>Login</a></li></ul>
+                  {% endif %}
           </div>
       </div>
   </nav>

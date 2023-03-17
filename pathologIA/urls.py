@@ -8,6 +8,7 @@ from StudentsApp.views import ViewSubmitAnswers
 urlpatterns = [
     path('', include('HomeApp.urls')),
     path('admin/', admin.site.urls),
+    path('Accounts/', include('AccountsApp.urls')),
     path('Images/', include('ImagesApp.urls')),
     path('Questions/', include('QuestionsApp.urls')),
     path('Students/', include('StudentsApp.urls')),

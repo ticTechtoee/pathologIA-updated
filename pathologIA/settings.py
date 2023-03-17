@@ -49,6 +49,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'AccountsApp.backends.EmailBackend',
+    ]
+
+
 ROOT_URLCONF = 'pathologIA.urls'
 
 TEMPLATES = [
