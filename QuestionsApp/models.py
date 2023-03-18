@@ -12,7 +12,7 @@ class QuestionTypesModel(models.Model):
 
 class QuestionsModel(models.Model):
     def number():
-        no = QuestionGroupModel.objects.count()
+        no = QuestionsModel.objects.count()
         if no == None:
             return 1
         else:
@@ -20,7 +20,7 @@ class QuestionsModel(models.Model):
         
     Id_Question = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
     Question_Number = models.IntegerField(unique=True, default=number)
-    Question_Text = models.CharField(max_length=1000, blank=True, null=True)
+    Question_Text = models.CharField(max_length=5000, blank=True, null=True)
     Question_Marks = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     Type_Of_Question = models.ForeignKey('QuestionTypesModel', models.DO_NOTHING, verbose_name="Type of Question", blank=True, null=True)
     Group_Name_Of_Quesitons = models.ForeignKey('QuestionGroupModel', models.DO_NOTHING, verbose_name="Group Name of Subject", blank=True, null=True)

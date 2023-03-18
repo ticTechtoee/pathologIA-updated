@@ -4,6 +4,14 @@
 <div class="container col-11 md-9" id="form-container">
     <!-- O conteúdo da linha será alinhado ao centro e teremos espaço de 5 colunas entre o texto e a figura -->
     <div class="row align-items-center-gx-5">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{message}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         <!-- Na tela responsiva a ordem 2 significa que a imagem ficará abaixo do texto quando reduzida -->
         <div class="col-md-6">
             <h2>Realize seu Cadastro</h2>
