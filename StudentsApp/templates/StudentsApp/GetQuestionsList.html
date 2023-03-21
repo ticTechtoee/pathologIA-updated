@@ -1,24 +1,5 @@
 <!-- <form action="" method="post">
   {% csrf_token %}
-<h2>{{ current_question.Question_Text }}</h2>
-{% if current_question.Image_For_Question.Upload_Image %}
-<img style="width: 20%;" src="{{ current_question.Image_For_Question.Upload_Image.url }}" alt="No Image">
-{% endif %}
-<ul>
-{% for option in current_question_options %}
-<div>
-<input type="radio" id="{{ forloop.counter }}" name="{{ current_question.Question_Text }}" value="{{ option.Option_Text }}" />
-<label for="{{ current_question.Question_Text }}">{{ option.Option_Text }}</label>
-</div>
-{% endfor %}
-</ul>
-<input type="hidden" value="{{next_question_id}}" name="question_id" id="">
-<!-- <a type="submit" href="?question_id={{ next_question_id }}">Next question</a> -->
-<!-- <input type="submit" value="submit"> -->
-<!-- </form> -->
-
-<form action="" method="post">
-  {% csrf_token %}
   {% if wrong_answer %}
   <h3>Your Answer was wrong you have 1 more try</h3>
   {% endif %}
@@ -34,3 +15,54 @@
   {% endfor %}
   <input type="submit" value="submit">
 </form>
+
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"></script>
+  <title>Answer Sheet</title>
+</head>
+
+<body>
+  <div class="container w-100 mx-auto">
+    {% if wrong_answer %}
+    <div class="alert alert-danger" role="alert">
+     Wrong Answer, You've 1 more Try
+    </div>
+    {% endif %}
+    <div class="card" style="width: auto;">
+      {% if Question.Image_For_Question.Upload_Image %}
+      <img src="{{Question.Image_For_Question.Upload_Image.url}}" class="card-img-top img-fluid mx-auto" alt="Question Image" style="max-width: 50%;">
+      {% endif %}
+      <div class="card-body">
+        <h4 class="card-text">{{Question.Question_Text}}</h4>
+        <form action="" method="post">
+          {% csrf_token %}
+          {% for option in Options %}
+          <div class="mb-3 form-check">
+            <input class="form-check-input" type="radio" id="Id_Question_Option" name="Question_Option"
+              value="{{option.Is_Right}}">
+            <label class="form-check-label" for="Question_Option">{{ option.Option_Text }}</label>
+          </div>
+
+          {% endfor %}
+          <input type="submit" value="Submit">
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
