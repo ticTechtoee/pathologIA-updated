@@ -12,7 +12,7 @@ class CreateSignUpForm(forms.ModelForm):
     Mobile_Number = forms.CharField(max_length=14, widget=forms.TextInput(attrs={'class': 'form-control','type':'tel', 'id':'fone','name':'fone', 'placeholder':'Informe seu celular'}))
     password = forms.CharField(max_length=15, widget=forms.PasswordInput(attrs={'class': 'form-control','id':'password','name':'password', 'placeholder':'Informe sua senha'}))
     confirm_password = forms.CharField(max_length=15, widget=forms.PasswordInput(attrs={'class': 'form-control','id':'confirmpassword','name':'confirmpassword', 'placeholder':'Confirme sua senha'}))
-    Role = forms.ModelChoiceField(queryset=RoleModel.objects.all(),
+    Role = forms.ModelChoiceField(queryset=RoleModel.objects.exclude(Role_Type = "student"),
         label="",
         empty_label="Escolha sua opção ...",
         widget=forms.Select(attrs={'class': 'custom-select'}))

@@ -56,6 +56,9 @@ def ViewGetQuestionsList(request, pk):
                 request.session['index'] = get_index
                 request.session['tries'] = 2
                 if get_index >= len(List_Of_Questions):
+                    save_performance =StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = score)
+                    save_performance.save()
+                    return redirect('StudentsApp:ResultView')
                     return HttpResponse(f'You have got {score} out of {total_marks}')
                 else:
                     List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
@@ -82,8 +85,8 @@ def ViewGetQuestionsList(request, pk):
         if get_index >= len(List_Of_Questions):
             request.session['index'] = 0
             request.session['tries'] = 2
+            return redirect('StudentsApp:ResultView')
             return HttpResponse(f'No More Questions To Show')
-            return render(request, 'StudentsApp/Result.html', context)
 
     if get_index >= len(List_Of_Questions):
         request.session['index'] = 0
@@ -96,3 +99,8 @@ def ViewGetQuestionsList(request, pk):
         total_marks = question.Question_Marks
         context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries')}
         return render(request, 'StudentsApp/GetQuestionsList.html', context)
+def ViewResult(request):
+    if 'index' in request.session or 'tries' in request.session:
+        del request.session['index']
+        del request.session['tries']
+    return render(request,'StudentsApp/Result.html')

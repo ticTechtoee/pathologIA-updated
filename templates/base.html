@@ -88,8 +88,9 @@
 
                       <!-- Submenu Estudante e Professor -->
                       <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:GetQuestionnaireListView' %}">Estudante<br></a>
+                        {% if not request.user.Role.Role_Type == "student" %}
                       <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Professor</p></a></div></li>
-                  
+                        {% endif %}
                       <!-- Menu Estudos -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-layers mbr-iconfont mbr-iconfont-btn"></span>Estudos</a>
                       <!-- Submenu Casos e Artigos -->

@@ -3,8 +3,20 @@ from django.urls import reverse
 from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm,EditOptionForm
 from .models import QuestionGroupModel, QuestionsModel,MCQModel
 from ImagesApp.models import ImageModel
+from AccountsApp.models import RoleModel
 
 
+def teacher_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if request.user.Role == RoleModel.objects.get(Role_Type='student'):
+            return redirect("HomeApp:HomePageView")
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+
+
+@teacher_required
 def ViewCreateQuestionGroup(request):
     Questionnaire_Objects = QuestionGroupModel.objects.filter(Creators_Information = request.user)
 
@@ -26,7 +38,7 @@ def ViewCreateQuestionGroup(request):
             print(form.errors)
     context = {'form':form, 'Questionnaire_Information': Questionnaire_Objects}
     return render(request, 'QuestionsApp/CreateQuestionsGroup.html', context)
-
+@teacher_required
 def ViewEditQuestionGroup(request, pk):
     question_obj = QuestionGroupModel.objects.get(Id_QuestionGroup = pk)
     form = CreateQuestionGroupForm(instance=question_obj)
@@ -45,13 +57,13 @@ def ViewEditQuestionGroup(request, pk):
             return redirect('QuestionsApp:CreateQuestionGroupView')
     context = {'form':form, 'Online_Status':str(question_obj.Online_Status)}
     return render(request, 'QuestionsApp/CreateQuestionsGroup.html', context)
-
+@teacher_required
 def ViewDeleteQuestionGroup(request, pk):
     question_obj = QuestionGroupModel.objects.get(Id_QuestionGroup = pk)
     question_obj.delete()
     return redirect('QuestionsApp:CreateQuestionGroupView')
 
-
+@teacher_required
 def ViewCreateQuestion(request):
     form = CreateQuestionsForm()
     editForm = EditQuestionsForm()
@@ -71,7 +83,7 @@ def ViewCreateQuestion(request):
                 return redirect('QuestionsApp:CreateOptionView')
     context = {'form':form, 'eidtform':editForm}
     return render(request, 'QuestionsApp/CreateQuestion.html', context)
-
+@teacher_required
 def ViewEditQuestion(request,question_number):
     question_obj = QuestionsModel.objects.get(Question_Number = question_number)
     form = CreateQuestionsForm(instance=question_obj)
@@ -82,17 +94,17 @@ def ViewEditQuestion(request,question_number):
             return redirect('QuestionsApp:CreateQuestionView')
     context={'form':form}
     return render(request,'QuestionsApp/CreateQuestion.html', context)
-
+@teacher_required
 def ViewDeleteQuestion(request, question_number):
     question_to_delete = QuestionsModel.objects.get(Question_Number = question_number)
     question_to_delete.delete()
     return redirect('QuestionsApp:CreateQuestionView')
-
+@teacher_required
 def ViewImagesGrid(request):
     all_images = ImageModel.objects.all()
     context = {'list_of_images':all_images}
     return render(request, 'QuestionsApp/referencestemplates/ImagesGrid.html', context)
-
+@teacher_required
 def ViewCreateOption(request):
     form = CreateOptionForm()
 
@@ -125,7 +137,7 @@ def ViewCreateOption(request):
                 return redirect(reverse('QuestionsApp:EditOptionView', kwargs={'pk': info}))
     context = {'form':form,'editForm':editForm}
     return render(request, 'QuestionsApp/CreateOption.html', context)
-
+@teacher_required
 def ViewEditOption(request, pk):
     get_option_value = MCQModel.objects.filter(Related_Question__Id_Question = pk).order_by('Option')
     if request.method == 'POST':
@@ -136,7 +148,7 @@ def ViewEditOption(request, pk):
         return redirect('QuestionsApp:CreateOptionView')
     context = {'options':get_option_value}
     return render(request, 'QuestionsApp/EditOption.html', context)
-
+@teacher_required
 def ViewDeleteOption(request, pk):
     get_option = MCQModel.objects.get(Id_MCQs = pk)
     get_option.delete()
