@@ -73,23 +73,36 @@
                   <!-- Menu Cadastro -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-database mbr-iconfont mbr-iconfont-btn"></span>Cadastro</a>
                       <!-- Submenu Imagens e Usuários -->
+                      {% if not request.user.Role.Role_Type == "student" %}
                       <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'ImagesApp:CreateImageView' %}">Imagens</a>
+                      
                         
-                        <a class="dropdown-item text-warning display-4" href="tipoImagem.html">Tipo de Imagens</a>
+                        <!-- <a class="dropdown-item text-warning display-4" href="tipoImagem.html">Tipo de Imagens</a> -->
                         
-                        <a class="dropdown-item text-warning display-4" href="usuarios.html" aria-expanded="false">Usuários</a>
+                        <!-- <a class="dropdown-item text-warning display-4" href="usuarios.html" aria-expanded="false">Usuários</a>
 
-                        <a class="dropdown-item text-warning display-4" href="tipoUsuario.html" aria-expanded="false">Tipo de Usuário</a>
+                        <a class="dropdown-item text-warning display-4" href="tipoUsuario.html" aria-expanded="false">Tipo de Usuário</a> -->
 
                         <a class="dropdown-item text-warning display-4" href="videos.html" aria-expanded="false">Vídeos</a></div></li>
-                  
+                  {% endif %}
                   <!-- Menu Questionários -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Questionários</a>
 
                       <!-- Submenu Estudante e Professor -->
                       <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:GetQuestionnaireListView' %}">Estudante<br></a>
                         {% if not request.user.Role.Role_Type == "student" %}
-                      <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Professor</p></a></div></li>
+                      <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Criar Questionário</p></a>
+                      <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionView' %}" aria-expanded="false"><p>Criar perguntas</p></a>
+                      <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateOptionView' %}" aria-expanded="false"><p>Criar Alternativas</p></a>
+                    
+                    
+                    </div>
+                    
+                      
+                    
+                    </li>
+                      
+                      
                         {% endif %}
                       <!-- Menu Estudos -->
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-layers mbr-iconfont mbr-iconfont-btn"></span>Estudos</a>
