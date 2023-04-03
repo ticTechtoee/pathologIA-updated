@@ -66,14 +66,14 @@ def ViewGetQuestionsList(request, pk):
                     # Add Model Here
                     save_performance =StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = score)
                     save_performance.save()
-                    context = {'Question':List_Of_Questions[get_index], 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries')}
+                    context = {'Question':List_Of_Questions[get_index], 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries'), 'current_score':score, 'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question':get_index}
                     return render(request, 'StudentsApp/GetQuestionsList.html', context)
             else:
                 List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
                 wrong_answer = True
                 score += question_marks if tries == 2 else question_marks/2
                 print('3: '+str(score))
-                context = {'Question':List_Of_Questions[get_index], 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': tries}
+                context = {'Question':List_Of_Questions[get_index], 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': tries, 'current_score':score, 'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question':get_index}
                 return render(request, 'StudentsApp/GetQuestionsList.html', context)
 
 
@@ -97,7 +97,7 @@ def ViewGetQuestionsList(request, pk):
         List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
         question = List_Of_Questions[get_index]
         total_marks = question.Question_Marks
-        context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries')}
+        context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries'), 'current_score':score,  'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question': str(get_index)}
         return render(request, 'StudentsApp/GetQuestionsList.html', context)
 def ViewResult(request):
     if 'index' in request.session or 'tries' in request.session:
