@@ -4,7 +4,6 @@ from .models import RoleModel
 from django.contrib import messages
 from django.contrib.auth import authenticate, login,logout
 
-
 def ViewSignUp(request):
     form = CreateSignUpForm()
     if request.method == 'POST':

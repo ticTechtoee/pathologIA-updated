@@ -15,6 +15,8 @@
         <!-- Na tela responsiva a ordem 2 significa que a imagem ficará abaixo do texto quando reduzida -->
         <div class="col-md-6">
             <h2>Realize seu Cadastro</h2>
+
+            {% if not request.user.Role.Role_Type == "student" %}
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-floating mb-3">
@@ -47,9 +49,9 @@
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                      <label class="input-group-text" for="SelectOp">Categoria</label>
+                        <label class="input-group-text" for="SelectOp">Categoria</label>
                     </div>
-                    {{form.Role}}    
+                    {{form.Role}}
                 </div>
                 <div class="mb-3">
                     <div class="form-check mb-2">
@@ -65,12 +67,19 @@
                         </label>
                     </div>
 
-                    
-                    <input type="submit" class="btn btn-primary" value="Cadastrar">
-                
-            </form>
-        </div>
 
+                    <input type="submit" class="btn btn-primary" value="Cadastrar">
+
+            </form>
+            
+            {% else %}
+
+            <h3>Os alunos não têm permissão para acessar esta página</h3>
+
+            {% endif %}
+
+
+        </div>
     </div>
 </div>
 {% endblock content %}

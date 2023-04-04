@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     #'ResultsApp.apps.ResultsappConfig',
     'VideosApp.apps.VideosappConfig',
     'StudentsApp.apps.StudentsappConfig',
+    'DemarcateApp.apps.DemarcateappConfig',
 ]
 
 MIDDLEWARE = [
