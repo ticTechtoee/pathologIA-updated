@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'VideosApp.apps.VideosappConfig',
     'StudentsApp.apps.StudentsappConfig',
     'DemarcateApp.apps.DemarcateappConfig',
+    'PredictionApp.apps.PredictionappConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,9 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+MODEL_ROOT = os.path.join(BASE_DIR, 'modelos')
+MODEL_URL = '/modelos/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
