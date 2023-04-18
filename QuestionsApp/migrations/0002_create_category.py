@@ -2,6 +2,7 @@ from django.db import migrations
 
 def create_category(apps, schema_editor):
     Category = apps.get_model('QuestionsApp', 'QuestionTypesModel')
+    
     Category.objects.create(Category='Multiple Choice Questions')
     Category.objects.create(Category='Demarcate Questions')
 
