@@ -12,8 +12,8 @@ class ImageModel(models.Model):
     #Path_To_Folder = models.CharField(max_length=250, blank=True, null=True)
     Image_Number = models.IntegerField(unique=True, default=number)
     Upload_Image = models.ImageField(upload_to='question_images/', null=True, blank=True)
-    Type_Of_Image = models.ForeignKey('ImageTypeModel', models.DO_NOTHING, blank=True, null=True)
-    Image_Group = models.ForeignKey('ImageGroupModel', verbose_name="Group To Which This Image Belongs To", on_delete=models.DO_NOTHING, blank=True, null=True)
+    Type_Of_Image = models.ForeignKey('ImageTypeModel', on_delete = models.DO_NOTHING, blank=True, null=True)
+    Image_Group = models.ForeignKey('ImageGroupModel', verbose_name="Group To Which This Image Belongs To", on_delete = models.DO_NOTHING, blank=True, null=True)
     def __str__(self):
         return str(self.Image_Number)
     

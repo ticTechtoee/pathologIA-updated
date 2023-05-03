@@ -22,10 +22,10 @@ class QuestionsModel(models.Model):
     Question_Number = models.IntegerField(unique=True, default=number)
     Question_Text = models.CharField(max_length=5000, blank=True, null=True)
     Question_Marks = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    Type_Of_Question = models.ForeignKey('QuestionTypesModel', models.DO_NOTHING, verbose_name="Type of Question", blank=True, null=True)
-    Group_Name_Of_Quesitons = models.ForeignKey('QuestionGroupModel', models.DO_NOTHING, verbose_name="Group Name of Subject", blank=True, null=True)
-    Video_For_Question = models.ForeignKey('VideosApp.VideoModel', models.DO_NOTHING, verbose_name="Link Video", blank=True, null=True)
-    Image_For_Question = models.ForeignKey('ImagesApp.ImageModel', models.DO_NOTHING, verbose_name="Link Image", blank=True, null=True)
+    Type_Of_Question = models.ForeignKey('QuestionTypesModel', on_delete = models.DO_NOTHING, verbose_name="Type of Question", blank=True, null=True)
+    Group_Name_Of_Quesitons = models.ForeignKey('QuestionGroupModel', on_delete = models.DO_NOTHING, verbose_name="Group Name of Subject", blank=True, null=True)
+    Video_For_Question = models.ForeignKey('VideosApp.VideoModel', on_delete = models.DO_NOTHING, verbose_name="Link Video", blank=True, null=True)
+    Image_For_Question = models.ForeignKey('ImagesApp.ImageModel', on_delete = models.CASCADE, verbose_name="Link Image", blank=True, null=True)
     
     def __str__(self):
         return self.Question_Text
@@ -54,7 +54,7 @@ class MCQModel(models.Model):
     Option = models.CharField(max_length=1, blank=True, null=True)
     Option_Text = models.CharField(max_length=1000, blank=True, null=True)
     Is_Right = models.BooleanField(default=False)
-    Related_Question = models.ForeignKey('QuestionsModel', models.DO_NOTHING, verbose_name="Related Question")
+    Related_Question = models.ForeignKey('QuestionsModel', on_delete = models.CASCADE, verbose_name="Related Question")
 
     def __str__(self):
         return self.Option_Text

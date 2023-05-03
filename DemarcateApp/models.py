@@ -10,8 +10,8 @@ class DemarcateQuestion(models.Model):
     Width = models.IntegerField(blank=True, null=True)
     Height = models.IntegerField(blank=True, null=True)
     Area = models.IntegerField(blank=True, null=True)
-    Question_Image = models.ForeignKey('ImagesApp.ImageModel', models.DO_NOTHING, verbose_name="Link Image", blank=True, null=True)
-    Related_Question = models.ForeignKey('QuestionsApp.QuestionsModel', models.DO_NOTHING, verbose_name="Related Question")
+    Question_Image = models.ForeignKey('ImagesApp.ImageModel', on_delete = models.CASCADE, verbose_name="Link Image", blank=True, null=True)
+    Related_Question = models.ForeignKey('QuestionsApp.QuestionsModel', on_delete = models.CASCADE, verbose_name="Related Question", blank=True, null=True)
 
     def __str__(self):
         return self.Related_Question
