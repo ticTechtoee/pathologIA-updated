@@ -14,4 +14,4 @@ class DemarcateQuestion(models.Model):
     Related_Question = models.ForeignKey('QuestionsApp.QuestionsModel', on_delete = models.CASCADE, verbose_name="Related Question", blank=True, null=True)
 
     def __str__(self):
-        return self.Related_Question
+        return str(self.Related_Question)

@@ -12,8 +12,16 @@
 </head>
 
 <body>
+    
 
-    <canvas id="my-canvas" width="400" height="400" style="border: 1px solid black;"></canvas>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
 
 
     <form action="" method="post">
@@ -26,10 +34,20 @@
         <input type="text" id="startX" name="startX">
         <label for="">StartY</label>
         <input type="text" id="startY" name="startY">
+        
 
+        <select name="Question_List">
+            <option selected="selected">Select The Question Text</option>
+            {% for Question in List_of_Questions %}
+                <option value="{{Question.Id_Question}}">{{Question.Question_Text}}</option>
+            {% endfor %}
+        </select>
+        
+        
         <input type="submit" value="Submit">
     </form>
-
+    
+    <canvas id="my-canvas" width="400" height="400" style="border: 1px solid black;"></canvas>
 
     <script>
        var canvas = document.getElementById('my-canvas');

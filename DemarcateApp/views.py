@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from ImagesApp.models import ImageModel
 from .forms import SelectImageForm
 from .models import DemarcateQuestion
+from QuestionsApp.models import QuestionsModel
 
 
 def ViewSelectImage(request):
@@ -18,7 +19,8 @@ def ViewSelectImage(request):
 
 def ViewCreateDemarcateQuestion(request, pk):
     Image_Instance = ImageModel.objects.get(Id_Image = pk)
-    context = {'instance': Image_Instance}
+    Get_Questions = QuestionsModel.objects.all()
+    context = {'instance': Image_Instance, 'List_of_Questions': Get_Questions}
 
     if request.method == "POST":
         Width_Of_Marked_Area = request.POST.get('width')
@@ -27,9 +29,11 @@ def ViewCreateDemarcateQuestion(request, pk):
         StartY_Of_Marked_Area = request.POST.get('startY')
 
         Total_Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
-
-        Create_Object = DemarcateQuestion(StartX = StartX_Of_Marked_Area,StartY = StartY_Of_Marked_Area,Width = Width_Of_Marked_Area ,Height = Height_Of_Marked_Area, Area = Total_Area, Question_Image = Image_Instance, Related_Question = "")
-
-        print(Area)
+        
+        Question_ID = request.POST.get("Question_List")
+        Question_Instance = QuestionsModel.objects.get(Id_Question=str(Question_ID))
+        
+        Create_Object = DemarcateQuestion(StartX = StartX_Of_Marked_Area,StartY = StartY_Of_Marked_Area,Width = Width_Of_Marked_Area ,Height = Height_Of_Marked_Area, Area = Total_Area, Question_Image = Image_Instance, Related_Question = Question_Instance)
+        Create_Object.save()
 
     return render(request, 'DemarcateApp/demarcate.html', context)
