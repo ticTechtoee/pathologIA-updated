@@ -27,12 +27,17 @@ def ViewGetQuestionsList(request, pk):
     score = 0
     final_marks = 0
 
+
     if 'index' not in request.session or 'tries' not in request.session:
         request.session['index'] = 0
         request.session['tries'] = 2
 
     get_index = int(request.session['index'])
     Get_Question_Information = List_Of_Questions[get_index]
+
+    if str(Get_Question_Information.Type_Of_Question) == "Demarcate":
+        print("It is a Demarcate Question")
+
     tries = request.session.get('tries')
 
     if request.method == 'POST':
@@ -102,6 +107,9 @@ def ViewGetQuestionsList(request, pk):
     else:
         List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
         question = List_Of_Questions[get_index]
+        if str(Get_Question_Information.Type_Of_Question) == "Demarcate":
+            print("It is a Demarcate Question")
+
         total_marks = question.Question_Marks
         final_marks += score
         context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries'), 'current_score':score,  'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question': str(get_index), 'Total_marks':final_marks}

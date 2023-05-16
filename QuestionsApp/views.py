@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from .forms import CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm,EditOptionForm
-from .models import QuestionGroupModel, QuestionsModel,MCQModel
+from .forms import SelectQuestionTypeForm,CreateQuestionGroupForm,CreateQuestionsForm,EditQuestionsForm, CreateOptionForm,EditOptionForm
+from .models import QuestionTypesModel,QuestionGroupModel, QuestionsModel,MCQModel
 from ImagesApp.models import ImageModel
 from AccountsApp.models import RoleModel
+from django.http import HttpResponse
 
 
 def teacher_required(view_func):
@@ -12,6 +13,30 @@ def teacher_required(view_func):
             return redirect("HomeApp:HomePageView")
         return view_func(request, *args, **kwargs)
     return wrapper
+
+
+@teacher_required
+def ViewSelectQuestionType(request):
+    form = SelectQuestionTypeForm()
+    if request.method == 'POST':
+        form = SelectQuestionTypeForm(request.POST or None)
+        selected_option = form['Category'].value()
+        print(selected_option)
+        
+        try:
+            question_type = QuestionTypesModel.objects.get(Id_Type_Question=selected_option)
+        except QuestionTypesModel.DoesNotExist:
+            return HttpResponse("Invalid question type")
+
+        if question_type.Category == "Demarcate Questions":
+            return redirect('DemarcateApp:SelectImageView')
+        elif question_type.Category == "Multiple Choice Questions":
+            return redirect("QuestionsApp:CreateQuestionGroupView")
+        else:
+            return HttpResponse("Wrong Selection")
+    
+    context = {'form': form}
+    return render(request, 'QuestionsApp/SelectQuestionType.html', context)
 
 
 
@@ -25,6 +50,9 @@ def ViewCreateQuestionGroup(request):
         form = CreateQuestionGroupForm(request.POST or None)
         if form.is_valid():
             ins = form.save(commit=False)
+
+            Is_Demarcate = request.POST.get('Is_Demarcate')
+            ins.Is_Demarcate = Is_Demarcate
             
             Status = request.POST.get('status')
             ins.Online_Status = Status
@@ -33,7 +61,10 @@ def ViewCreateQuestionGroup(request):
             ins.Creators_Information = Creator
 
             ins.save()
-            return redirect('QuestionsApp:CreateQuestionView')
+            if Is_Demarcate == 'True':
+                return redirect('DemarcateApp:SelectImageView')
+            elif Is_Demarcate == 'False':
+                return redirect('QuestionsApp:CreateQuestionView')
         else:
             print(form.errors)
     context = {'form':form, 'Questionnaire_Information': Questionnaire_Objects}
@@ -137,6 +168,7 @@ def ViewCreateOption(request):
                 return redirect(reverse('QuestionsApp:EditOptionView', kwargs={'pk': info}))
     context = {'form':form,'editForm':editForm}
     return render(request, 'QuestionsApp/CreateOption.html', context)
+
 @teacher_required
 def ViewEditOption(request, pk):
     get_option_value = MCQModel.objects.filter(Related_Question__Id_Question = pk).order_by('Option')
@@ -148,6 +180,7 @@ def ViewEditOption(request, pk):
         return redirect('QuestionsApp:CreateOptionView')
     context = {'options':get_option_value}
     return render(request, 'QuestionsApp/EditOption.html', context)
+
 @teacher_required
 def ViewDeleteOption(request, pk):
     get_option = MCQModel.objects.get(Id_MCQs = pk)

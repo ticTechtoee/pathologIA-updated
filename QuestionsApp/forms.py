@@ -1,7 +1,14 @@
-from .models import QuestionGroupModel,QuestionsModel,MCQModel
+from .models import QuestionTypesModel,QuestionGroupModel,QuestionsModel,MCQModel
 from VideosApp.models import VideoModel
 from ImagesApp.models import ImageModel
 from django import forms
+from django.db.models import Q
+
+class SelectQuestionTypeForm(forms.ModelForm):
+    Category = forms.ModelChoiceField(required=True, queryset=QuestionTypesModel.objects.all(),label="", empty_label="Selecione o tipo de pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
+    class Meta:
+        model = QuestionTypesModel
+        fields = ['Category']
 
 class CreateQuestionGroupForm(forms.ModelForm):
     
@@ -10,7 +17,7 @@ class CreateQuestionGroupForm(forms.ModelForm):
     class Meta:
         model = QuestionGroupModel
         fields = ['Name_Of_Group','Subject_Description','Date_Of_Creation']
-        exclude = ['Group_Number','Creators_Information','Online_Status']
+        exclude = ['Group_Number','Creators_Information','Is_Demarcate','Online_Status']
         widgets = {
             'Date_Of_Creation': forms.DateInput(format=('%Y-%m-%d'),
                                                 attrs={'class': 'form-control', 
@@ -21,7 +28,7 @@ class CreateQuestionGroupForm(forms.ModelForm):
               }),}
 
 class CreateQuestionsForm(forms.ModelForm):
-    Group_Name_Of_Quesitons = forms.ModelChoiceField(queryset=QuestionGroupModel.objects.all(),label="", empty_label="Selecione o Questionário", widget=forms.Select(attrs={'class': 'custom-select'}))
+    Group_Name_Of_Quesitons = forms.ModelChoiceField(queryset = QuestionGroupModel.objects.filter(Q(Is_Demarcate=False) & Q(Online_Status=True)),label="", empty_label="Selecione o Questionário", widget=forms.Select(attrs={'class': 'custom-select'}))
     Question_Text = forms.CharField(max_length=5000, widget=forms.Textarea(attrs={'class': 'form-control', 'rows':'5', 'id':'cDesc','name':'tDesc', 'placeholder':'Descrição do assunto do questionário'}))
     Question_Marks = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class': 'form-control', 'type':'number','min':'0','value':'1', 'step':'0.5', 'id':'cIdPeso','name':'tIdPeso', 'placeholder':'0.00'}))
     Image_For_Question = forms.ModelChoiceField(required=False, queryset=ImageModel.objects.all(), label="", empty_label="Selecione o número da imagem", widget=forms.Select(attrs={'class': 'custom-select'}))

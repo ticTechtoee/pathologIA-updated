@@ -4,6 +4,7 @@ from . import views
 app_name = 'QuestionsApp'
 
 urlpatterns = [
+    path('SelectQuestionType/', views.ViewSelectQuestionType, name='SelectQuestiontypeView'),
     path('CreateQuestionGroup/', views.ViewCreateQuestionGroup, name='CreateQuestionGroupView'),
     path('CreateQuestionGroup/<str:pk>/', views.ViewEditQuestionGroup, name='EditQuestionGroupView'),
     path('DeleteQuestionGroup/<str:pk>/', views.ViewDeleteQuestionGroup, name='DeleteQuestionGroupView'),

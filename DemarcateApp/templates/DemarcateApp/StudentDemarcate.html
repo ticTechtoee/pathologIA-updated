@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Demarcate Question</title>
+    <title>Student Side</title>
     <style>
 
     </style>
@@ -22,7 +22,7 @@
 <br>
 
 
-
+    <h2>{{Demarcate_Question_List.Related_Question}}</h2>
 
     <form action="" method="post">
         {% csrf_token %}
@@ -34,16 +34,7 @@
         <input type="text" id="startX" name="startX">
         <label for="">StartY</label>
         <input type="text" id="startY" name="startY">
-        
-
-        <select name="Question_List">
-            <option selected="selected">Select The Question Text</option>
-            {% for Question in List_of_Questions %}
-                <option value="{{Question.Id_Question}}">{{Question.Question_Text}}</option>
-            {% endfor %}
-        </select>
-        
-        
+              
         <input type="submit" value="Submit">
     </form>
     
@@ -73,7 +64,7 @@ img.onload = function () {
     canvas.height = newHeight;
     ctx.drawImage(img, 0, 0, newWidth, newHeight);
 };
-img.src = '{{ instance.Upload_Image.url }}';
+img.src = '{{ Demarcate_Question_List.Question_Image.Upload_Image.url }}';
 
 canvas.addEventListener('mousedown', function (e) {
     isDrawing = true;

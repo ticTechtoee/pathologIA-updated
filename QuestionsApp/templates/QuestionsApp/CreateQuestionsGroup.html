@@ -42,6 +42,48 @@
                         <label for="cIdDataQuiz" class="form-label">Data do Questionário</label>
                     </div>
 
+                    <!-- For Demarcate Step -->
+
+                    <div class="form-floating md-3">
+                        <p><b>Este é um grupo demarcado</b></p>
+
+                       {% if Is_Demarcate == 'True' %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdAberto" name="Is_Demarcate" value="True" checked>
+                            <label class="form-check-label" for="cIdAberto">Certo</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdFechado" name="Is_Demarcate" value="False">
+                            <label class="form-check-label" for="cIdFechado">Errado</label>
+                        </div>
+                        {% elif  Is_Demarcate == 'False' %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdAberto" name="Is_Demarcate" value="True" >
+                            <label class="form-check-label" for="cIdAberto">Certo</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdFechado" name="Is_Demarcate" value="False" checked>
+                            <label class="form-check-label" for="cIdFechado">Errado</label>
+                        </div>
+                        {% else %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdAberto" name="Is_Demarcate" value="True" checked>
+                            <label class="form-check-label" for="cIdAberto">Certo</label>
+                        </div>
+                      
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="cIdFechado" name="Is_Demarcate" value="False">
+                            <label class="form-check-label" for="cIdFechado">Errado</label>
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+
+
+
+                    <!-- For Online Status -->
+
                     <div class="form-floating md-3">
                         <p><b>Selecione o Status do Questionário</b></p>
 
