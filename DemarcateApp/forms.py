@@ -22,3 +22,10 @@ class CreateDemarcateQuestionsForm(forms.ModelForm):
         model = DemarcateQuestionsModel
         fields = ['Question_Text', 'Question_Marks', 'Group_Name_Of_Quesitons']
         exclude = ['Id_Question','Question_Number', 'Type_Of_Question','Image_For_Question']
+
+class GetQuestionnaireListForm(forms.ModelForm):
+    Name_Of_Group = forms.ModelChoiceField(queryset = QuestionGroupModel.objects.filter(Q(Is_Demarcate=True) & Q(Online_Status=True)), label="", empty_label="Selecione o Questionário", widget=forms.Select(attrs={'class': 'custom-select'}))
+    class Meta:
+        model = QuestionGroupModel
+        fields = ['Name_Of_Group']
+        exclude = ['Is_Right','Option_Text','Option']
