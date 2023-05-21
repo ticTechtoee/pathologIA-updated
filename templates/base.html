@@ -101,7 +101,7 @@
                   <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#" data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Questionários</a>
                     {% if user.is_authenticated %}
                       <!-- Submenu Estudante e Professor -->
-                      <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:GetQuestionnaireListView' %}">Estudante<br></a>
+                      <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
                         {% if not request.user.Role.Role_Type == "student" %}
                       <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:SelectQuestiontypeView' %}" aria-expanded="false"><p>Tipo de pergunta</p></a>
                       <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}" aria-expanded="false"><p>Criar Questionário</p></a>

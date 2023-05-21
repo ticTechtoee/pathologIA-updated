@@ -50,6 +50,8 @@ def ViewCreateDemarcateArea(request, pk):
         Create_Object = DemarcateQuestion(StartX = StartX_Of_Marked_Area,StartY = StartY_Of_Marked_Area,Width = Width_Of_Marked_Area ,Height = Height_Of_Marked_Area, Area = Total_Area, Question_Image = Image_Instance, Related_Question = Question_Instance)
         Create_Object.save()
 
+        return redirect('DemarcateApp:CreateDemarcateQuestionView')
+
     return render(request, 'DemarcateApp/TeacherDemarcate.html', context)
 
 
@@ -116,6 +118,8 @@ def ViewAnswerDemarcateQuestion(request,pk):
                     request.session['Dindex'] = 0
                     return HttpResponse('No More Questions To Show')
             else:
+                request.session['Dindex'] = 0
+                return HttpResponse('No More Questions To Show')
                 print("No More Questions to show")
 
 

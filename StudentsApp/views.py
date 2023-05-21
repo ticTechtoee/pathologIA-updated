@@ -1,10 +1,34 @@
 from django.shortcuts import render, redirect
-from QuestionsApp.models import QuestionsModel, QuestionGroupModel,MCQModel
+from QuestionsApp.models import QuestionTypesModel,QuestionsModel, QuestionGroupModel,MCQModel
+from QuestionsApp.forms import SelectQuestionTypeForm
 from StudentsApp.models import StudentPerformance
 from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseBadRequest
+
+def ViewSelectQuestionType(request):
+    form = SelectQuestionTypeForm()
+    if request.method == 'POST':
+        form = SelectQuestionTypeForm(request.POST or None)
+        selected_option = form['Category'].value()
+        print(selected_option)
+        
+        try:
+            question_type = QuestionTypesModel.objects.get(Id_Type_Question=selected_option)
+        except QuestionTypesModel.DoesNotExist:
+            return HttpResponse("Invalid question type")
+
+        if question_type.Category == "Demarcate Questions":
+            return redirect('DemarcateApp:GetDemarcateQuestionnaireListView')
+        elif question_type.Category == "Multiple Choice Questions":
+            return redirect("StudentsApp:GetQuestionnaireListView")
+        else:
+            return HttpResponse("Wrong Selection")
+    
+    context = {'form': form}
+    return render(request, 'QuestionsApp/SelectQuestionType.html', context)
+
 
 
 def ViewGetQuestionnaireList(request):
