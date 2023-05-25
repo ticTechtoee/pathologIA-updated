@@ -2,9 +2,9 @@ from django.db import migrations
 
 def create_roles(apps, schema_editor):
     Role = apps.get_model('AccountsApp', 'RoleModel')
-    Role.objects.create(Role_Type='teacher')
-    Role.objects.create(Role_Type='student')
-    Role.objects.create(Role_Type='guest')
+    Role.objects.create(Role_Type='professor')
+    Role.objects.create(Role_Type='estudante')
+    Role.objects.create(Role_Type='convidado')
 
 class Migration(migrations.Migration):
 

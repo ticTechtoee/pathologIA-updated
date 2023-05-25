@@ -9,9 +9,9 @@
         class="w-100 shadow-1-strong rounded mb-4"
         alt="Boat on Calm Water"
       />
-        <a href="{% url 'ImagesApp:DeleteImageView' image.Id_Image %}">Delete This Image</a>
-        <strong>Or</strong>
-        <a href="{% url 'ImagesApp:EditImageView' image.Id_Image %}">Edit</a>
+        <a href="{% url 'ImagesApp:DeleteImageView' image.Id_Image %}">Excluir a Imagem</a>
+        <strong>ou</strong>
+        <a href="{% url 'ImagesApp:EditImageView' image.Id_Image %}">Editar</a>
 
     </div>
     {% endfor %}

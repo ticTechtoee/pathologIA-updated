@@ -51,7 +51,7 @@
                 <img src="{% static 'assets/img/sign_in.svg' %}" alt="Entrar no Sistema" class="img-fluid">
             </div>
             <!-- O atributo id="link-container" significa que será feito um link para mudar de página -->
-            {% if not request.user.Role.Role_Type == "student" %}
+            {% if not request.user.Role.Role_Type == "estudante" %}
             <div class="col-12" id="link-container">
                 <a href="{% url 'AccountsApp:SignUpView' %}">Não Tenho uma Conta</a>
             </div>

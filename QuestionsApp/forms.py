@@ -46,7 +46,7 @@ class EditQuestionsForm(forms.ModelForm):
         exclude = ['Id_Question','Question_Marks','Group_Name_Of_Quesitons','Image_For_Question','Video_For_Question','Question_Number', 'Type_Of_Question']
 
 class CreateOptionForm(forms.ModelForm):
-    Related_Question = forms.ModelChoiceField(queryset=QuestionsModel.objects.all(),label="", empty_label="Selecione o número da pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
+    Related_Question = forms.ModelChoiceField(queryset=QuestionsModel.objects.all(),label="", empty_label="Selecione a Descrição da Pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
     Option_Text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'class': 'form-control', 'rows':'5', 'id':'cAssQuiz','name':'tAssQuiz', 'placeholder':'Descrição  da alternativa'}))
     Option = forms.CharField(max_length=1, widget=forms.TextInput(attrs={'class': 'form-control', 'type':'text','id':'cOpcao','name':'tOpcao', 'placeholder':'Opção'}))
     class Meta:

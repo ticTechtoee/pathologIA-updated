@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 def teacher_required(view_func):
     def wrapper(request, *args, **kwargs):
-        if request.user.Role == RoleModel.objects.get(Role_Type='student'):
+        if request.user.Role == RoleModel.objects.get(Role_Type='estudante'):
             return redirect("HomeApp:HomePageView")
         return view_func(request, *args, **kwargs)
     return wrapper
@@ -28,9 +28,9 @@ def ViewSelectQuestionType(request):
         except QuestionTypesModel.DoesNotExist:
             return HttpResponse("Invalid question type")
 
-        if question_type.Category == "Demarcate Questions":
+        if question_type.Category == "Questões de Demarcação de Imagens":
             return redirect('DemarcateApp:SelectImageView')
-        elif question_type.Category == "Multiple Choice Questions":
+        elif question_type.Category == "Questões de múltipla escolha":
             return redirect("QuestionsApp:CreateQuestionGroupView")
         else:
             return HttpResponse("Wrong Selection")
