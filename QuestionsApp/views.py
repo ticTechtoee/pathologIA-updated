@@ -175,6 +175,8 @@ def ViewEditOption(request, pk):
     if request.method == 'POST':
         for option in get_option_value:
             option_text = request.POST.get(str(option.Id_MCQs))
+            option_selection = request.POST.get(option.Option)
+            option.Is_Right = option_selection
             option.Option_Text = option_text
             option.save()
         return redirect('QuestionsApp:CreateOptionView')

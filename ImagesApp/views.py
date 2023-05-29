@@ -6,7 +6,7 @@ from AccountsApp.models import RoleModel
 
 def teacher_required(view_func):
     def wrapper(request, *args, **kwargs):
-        if request.user.Role == RoleModel.objects.get(Role_Type='student'):
+        if request.user.Role == RoleModel.objects.get(Role_Type='estudante'):
             return redirect("HomeApp:HomePageView")
         return view_func(request, *args, **kwargs)
     return wrapper
