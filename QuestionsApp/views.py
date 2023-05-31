@@ -21,7 +21,6 @@ def ViewSelectQuestionType(request):
     if request.method == 'POST':
         form = SelectQuestionTypeForm(request.POST or None)
         selected_option = form['Category'].value()
-        print(selected_option)
         
         try:
             question_type = QuestionTypesModel.objects.get(Id_Type_Question=selected_option)

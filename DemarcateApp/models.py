@@ -28,6 +28,6 @@ class DemarcateQuestionsModel(models.Model):
     Question_Number = models.IntegerField(unique=True, default=number)
     Question_Text = models.CharField(max_length=5000, blank=True, null=True)
     Question_Marks = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    Group_Name_Of_Quesitons = models.ForeignKey('QuestionsApp.QuestionGroupModel', on_delete = models.DO_NOTHING, verbose_name="Group Name of Subject", blank=True, null=True)    
+    Group_Name_Of_Quesitons = models.ForeignKey('QuestionsApp.QuestionGroupModel', on_delete = models.CASCADE, verbose_name="Group Name of Subject", blank=True, null=True)    
     def __str__(self):
         return self.Question_Text

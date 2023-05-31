@@ -12,16 +12,15 @@ def ViewSelectQuestionType(request):
     if request.method == 'POST':
         form = SelectQuestionTypeForm(request.POST or None)
         selected_option = form['Category'].value()
-        print(selected_option)
         
         try:
             question_type = QuestionTypesModel.objects.get(Id_Type_Question=selected_option)
         except QuestionTypesModel.DoesNotExist:
             return HttpResponse("Invalid question type")
 
-        if question_type.Category == "Demarcate Questions":
+        if question_type.Category == "Questões de Demarcação de Imagens":
             return redirect('DemarcateApp:GetDemarcateQuestionnaireListView')
-        elif question_type.Category == "Multiple Choice Questions":
+        elif question_type.Category == "Questões de múltipla escolha":
             return redirect("StudentsApp:GetQuestionnaireListView")
         else:
             return HttpResponse("Wrong Selection")
