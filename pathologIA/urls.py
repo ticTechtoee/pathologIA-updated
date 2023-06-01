@@ -12,6 +12,7 @@ urlpatterns = [
     path('Students/', include('StudentsApp.urls')),
     path('Demarcate/', include('DemarcateApp.urls')),
     path('Prediction/', include('PredictionApp.urls')),
+    path('Forum/', include('ForumApp.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

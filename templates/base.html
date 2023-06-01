@@ -173,7 +173,7 @@
             {% if user.is_authenticated %}
             {% if not request.user.Role.Role_Type == "convidado" %}
 
-            <li class="nav-item"><a class="nav-link link text-warning display-4" href="forum.html"><span
+            <li class="nav-item"><a class="nav-link link text-warning display-4" href="{% url 'forum:forum-index' %}"><span
                   class="mbrib-chat mbr-iconfont mbr-iconfont-btn"></span>Fórum</a></li>
             {% endif %}
             <!-- Menu Login -->

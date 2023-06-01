@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'StudentsApp.apps.StudentsappConfig',
     'DemarcateApp.apps.DemarcateappConfig',
     'PredictionApp.apps.PredictionappConfig',
+    'ForumApp.apps.ForumappConfig',
 ]
 
 MIDDLEWARE = [
