@@ -13,7 +13,7 @@ urlpatterns = [
     path('Demarcate/', include('DemarcateApp.urls')),
     path('Prediction/', include('PredictionApp.urls')),
     path('Forum/', include('ForumApp.urls')),
-
+    path('Cases/', include('CasesApp.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.MODEL_URL, document_root = settings.MODEL_ROOT)

@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'HomeApp.apps.HomeappConfig',
-    #'CasesApp.apps.CasesappConfig',
+    'CasesApp.apps.CasesappConfig',
     'ImagesApp.apps.ImagesappConfig',
     'QuestionsApp.apps.QuestionsappConfig',
     #'ResultsApp.apps.ResultsappConfig',
