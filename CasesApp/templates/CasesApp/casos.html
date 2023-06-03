@@ -31,7 +31,12 @@
                     </label>
                 </div>
                 <!-- Parâmetro  enctype="multipart/form-data" permite o preview da imagem-->
-                <form enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% if user.is_authenticated %}
+                    {% if not request.user.Role.Role_Type == "estudante" %}
+                    
                     <div class="form-floating mb-3">
                         {{form.CaseStudyNumber}}
                     </div>
@@ -46,9 +51,24 @@
                           <label class="custom-file-label" for="CaseStudyFile">Escolher arquivo do Estudo de Caso</label>
                         </div>
                       </div>
-                    
+
+                      <input type="submit" value="submit" name="btnSubmit" class="btn btn-submit active">
+                      {% else %}
+                      <div class="form-floating mb-3">
+                        {{form.CaseStudyNumber}}
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.CaseStudyFileName}}
+                    </div>
+                    <input type="submit" value="Search" name="btnSearch" class="btn btn-submit active">
+                    {% endif %}
+                    {% endif %}
+
+
+                   {% if SearchResult %}
+                   <h3>File Found</h3>
+                   {% endif %} 
                    
-                    <input type="submit" value="submit" class="btn btn-submit active">
 
                 </form>
         </div>

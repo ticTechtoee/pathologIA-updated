@@ -4,10 +4,18 @@ from .models import CasesModel
 
 def ViewUploadFile(request):
     if request.method == 'POST':
-        form = CasesForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            # return redirect('search_pdf')
+        if "btnSubmit" in request.POST:
+            form = CasesForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+        elif "btnSearch" in request.POST:
+            if request.method == 'POST':
+                search_query = request.POST.get('CaseStudyFileName')
+                results = CasesModel.objects.filter(CaseStudyFileName__icontains=search_query)
+                return render(request, 'CasesApp/casos.html', {'SearchResult': results})
+
+            else:
+                results = CasesModel.objects.all()
     else:
         form = CasesForm()
     
