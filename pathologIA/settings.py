@@ -145,6 +145,9 @@ MEDIA_URL = '/media/'
 MODEL_ROOT = os.path.join(BASE_DIR, 'modelos')
 MODEL_URL = '/modelos/'
 
+CMODEL_ROOT = os.path.join(BASE_DIR, 'cmodelos')
+CMODEL_URL = '/cmodelos/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

@@ -17,3 +17,4 @@ urlpatterns = [
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.MODEL_URL, document_root = settings.MODEL_ROOT)
+urlpatterns += static(settings.CMODEL_URL, document_root = settings.CMODEL_ROOT)

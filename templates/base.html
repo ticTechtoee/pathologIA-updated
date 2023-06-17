@@ -110,17 +110,17 @@
                   href="{% url 'ImagesApp:CreateImageView' %}">Imagens</a>
               </div>
 
-                <!-- <a class="dropdown-item text-warning display-4" href="tipoImagem.html">Tipo de Imagens</a> -->
+              <!-- <a class="dropdown-item text-warning display-4" href="tipoImagem.html">Tipo de Imagens</a> -->
 
-                <!-- <a class="dropdown-item text-warning display-4" href="usuarios.html" aria-expanded="false">Usuários</a>
+              <!-- <a class="dropdown-item text-warning display-4" href="usuarios.html" aria-expanded="false">Usuários</a>
 
                         <a class="dropdown-item text-warning display-4" href="tipoUsuario.html" aria-expanded="false">Tipo de Usuário</a> -->
 
-                <!-- <a class="dropdown-item text-warning display-4" href="videos.html" aria-expanded="false">Vídeos</a></div></li> -->
-                {% endif %}
-                {% endif %}
-                {% endif %}
-                <!-- Menu Questionários -->
+              <!-- <a class="dropdown-item text-warning display-4" href="videos.html" aria-expanded="false">Vídeos</a></div></li> -->
+              {% endif %}
+              {% endif %}
+              {% endif %}
+              <!-- Menu Questionários -->
             <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#"
                 data-toggle="dropdown-submenu" aria-expanded="false"><span
                   class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Questionários</a>
@@ -131,7 +131,7 @@
 
                 {% if not request.user.Role.Role_Type == "estudante" %}
                 {% if not request.user.Role.Role_Type == "convidado" %}
-                
+
                 <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:SelectQuestiontypeView' %}"
                   aria-expanded="false">
                   <p>Tipo de pergunta</p>
@@ -162,18 +162,64 @@
                 data-toggle="dropdown-submenu" aria-expanded="false"><span
                   class="mobi-mbri mobi-mbri-layers mbr-iconfont mbr-iconfont-btn"></span>Estudos</a>
               <!-- Submenu Casos e Artigos -->
-              <!-- <div class="dropdown-menu"><a class="dropdown-item text-warning display-4" href="casos.html">Casos</a><a class="dropdown-item text-warning display-4" href="artigos.html" aria-expanded="false">Artigos</a></div></li> -->
+              <div class="dropdown-menu"><a class="dropdown-item text-warning display-4"
+                  href="{% url 'CasesApp:ViewUploadFileView' %}">Casos</a>
+            </li>
+            <!-- <a class="dropdown-item text-warning display-4" href="artigos.html" aria-expanded="false">Artigos</a></div></li> -->
 
-              <!-- Menu Predição -->
-            <li class="nav-item"><a class="nav-link link text-warning display-4"
-                href="{% url 'PredictionApp:PredictTuberclousisView' %}"><span
-                  class="socicon socicon-reverbnation mbr-iconfont mbr-iconfont-btn"></span>Predição</a></li>
+            <!-- Menu Predição -->
+
+            <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#"
+              data-toggle="dropdown-submenu" aria-expanded="false"><span
+                class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Predição</a>
+            
+            <!-- Submenu Estudante e Professor -->
+            <div class="dropdown-menu"><a class="dropdown-item text-warning display-4"
+                href="{% url 'PredictionApp:PredictTuberclousisView' %}">Tuberclousis<br></a>
+             
+             
+      
+            </div>
+          </li>
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             <!-- Menu Forum -->
             {% if user.is_authenticated %}
             {% if not request.user.Role.Role_Type == "convidado" %}
 
-            <li class="nav-item"><a class="nav-link link text-warning display-4" href="{% url 'forum:forum-index' %}"><span
+            <li class="nav-item"><a class="nav-link link text-warning display-4"
+                href="{% url 'forum:forum-index' %}"><span
                   class="mbrib-chat mbr-iconfont mbr-iconfont-btn"></span>Fórum</a></li>
             {% endif %}
             <!-- Menu Login -->

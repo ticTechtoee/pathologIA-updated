@@ -5,6 +5,5 @@ app_name = 'PredictionApp'
 
 urlpatterns = [
     path('', views.ViewPredictTuberclousis, name='PredictTuberclousisView'),
-
-
+    # path('COVID/', views.ViewPredictCOVID, name='PredictCOVIDView'),
 ]
