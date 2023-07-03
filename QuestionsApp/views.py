@@ -61,6 +61,7 @@ def ViewCreateQuestionGroup(request):
 
             ins.save()
             if Is_Demarcate == 'True':
+                
                 return redirect('DemarcateApp:SelectImageView')
             elif Is_Demarcate == 'False':
                 return redirect('QuestionsApp:CreateQuestionView')

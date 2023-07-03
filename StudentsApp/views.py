@@ -119,7 +119,7 @@ def ViewGetQuestionsList(request, pk):
             request.session['index'] = 0
             request.session['tries'] = 2
             return redirect('StudentsApp:ResultView')
-            return HttpResponse(f'No More Questions To Show')
+            return HttpResponse(f'Não existem mais questões para exibir')
 
     if get_index >= len(List_Of_Questions):
         request.session['index'] = 0
