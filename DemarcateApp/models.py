@@ -31,3 +31,4 @@ class DemarcateQuestionsModel(models.Model):
     Group_Name_Of_Quesitons = models.ForeignKey('QuestionsApp.QuestionGroupModel', on_delete = models.CASCADE, verbose_name="Group Name of Subject", blank=True, null=True)    
     def __str__(self):
         return self.Question_Text
+

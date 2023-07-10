@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect
 from ImagesApp.models import ImageModel
 from .forms import SelectImageForm, CreateDemarcateQuestionsForm,GetQuestionnaireListForm
 from .models import DemarcateQuestion,DemarcateQuestionsModel
+from QuestionsApp.models import QuestionGroupModel
 from QuestionsApp.models import QuestionsModel
 from django.http import HttpResponse
-from StudentsApp.models import StudentPerformance
+from StudentsApp.models import StudentPerformance, StudentPerfomranceInDemarcateQuizes
 from AccountsApp.models import CustomUserModel
 
 
@@ -74,6 +75,7 @@ def ViewAnswerDemarcateQuestion(request,pk):
     List_of_Question = list(DemarcateQuestion.objects.filter(Related_Question__Group_Name_Of_Quesitons = pk))
     Get_Student_Information = CustomUserModel.objects.get(Id_User = request.user.Id_User)
     Get_Question_Information = None
+    Get_Group_Information = QuestionGroupModel.objects.get(Id_QuestionGroup = pk)
 
     
     if 'Dindex' not in request.session:
@@ -84,6 +86,8 @@ def ViewAnswerDemarcateQuestion(request,pk):
     if request.method == 'POST':
         if get_index < len(List_of_Question):
             Get_Question_Information = List_of_Question[get_index]
+            
+            
             get_index += 1
             request.session['Dindex'] = get_index
             
@@ -104,11 +108,11 @@ def ViewAnswerDemarcateQuestion(request,pk):
                 Area_Range = range((List_of_Question[get_index].Area - Threshold),(List_of_Question[get_index].Area),1)
                 if (StartX_Of_Marked_Area in X_Range) and (StartY_Of_Marked_Area in Y_Range) and (Width_Of_Marked_Area in Width_Range) and (Height_Of_Marked_Area in Height_Range) and (Area in Area_Range):
                     print("Your Answer is Correct")
-                    save_performance = StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
+                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
                     save_performance.save()
                 else:
                     print("Your Answer is wrong")
-                    save_performance = StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = 0.0)
+                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 0.0)
                     save_performance.save()
                 if get_index < len(List_of_Question):
                     context = {'Demarcate_Question_List':List_of_Question[get_index] }
