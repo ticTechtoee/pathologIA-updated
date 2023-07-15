@@ -70,7 +70,6 @@ def ViewGetDemarcateQuestionnaireList(request):
     return render(request, 'DemarcateApp/StudentSelectQuestionnaire.html', context)
 
 
-
 def ViewAnswerDemarcateQuestion(request,pk):
     List_of_Question = list(DemarcateQuestion.objects.filter(Related_Question__Group_Name_Of_Quesitons = pk))
     Get_Student_Information = CustomUserModel.objects.get(Id_User = request.user.Id_User)
@@ -100,14 +99,28 @@ def ViewAnswerDemarcateQuestion(request,pk):
 
             Threshold = 30
             if get_index < len(List_of_Question):
+                
+                """Positive Range"""
+                X_P_Range = range((List_of_Question[get_index].StartX + Threshold),(List_of_Question[get_index].StartX),1)
+                Y_P_Range = range((List_of_Question[get_index].StartY + Threshold),(List_of_Question[get_index].StartY),1)
+                Width_P_Range = range((List_of_Question[get_index].Width + Threshold),(List_of_Question[get_index].Width),1)
+                Height_P_Range = range((List_of_Question[get_index].Height + Threshold),(List_of_Question[get_index].Height),1)
+                Area_P_Range = range((List_of_Question[get_index].Area + Threshold),(List_of_Question[get_index].Area),1)                
+                
+                """Negative Range"""
+                X_N_Range = range((List_of_Question[get_index].StartX - Threshold),(List_of_Question[get_index].StartX),1)
+                Y_N_Range = range((List_of_Question[get_index].StartY - Threshold),(List_of_Question[get_index].StartY),1)
+                Width_N_Range = range((List_of_Question[get_index].Width - Threshold),(List_of_Question[get_index].Width),1)
+                Height_N_Range = range((List_of_Question[get_index].Height - Threshold),(List_of_Question[get_index].Height),1)
+                Area_N_Range = range((List_of_Question[get_index].Area - Threshold),(List_of_Question[get_index].Area),1)
 
-                X_Range = range((List_of_Question[get_index].StartX - Threshold),(List_of_Question[get_index].StartX),1)
-                Y_Range = range((List_of_Question[get_index].StartY - Threshold),(List_of_Question[get_index].StartY),1)
-                Width_Range = range((List_of_Question[get_index].Width - Threshold),(List_of_Question[get_index].Width),1)
-                Height_Range = range((List_of_Question[get_index].Height - Threshold),(List_of_Question[get_index].Height),1)
-                Area_Range = range((List_of_Question[get_index].Area - Threshold),(List_of_Question[get_index].Area),1)
-                if (StartX_Of_Marked_Area in X_Range) and (StartY_Of_Marked_Area in Y_Range) and (Width_Of_Marked_Area in Width_Range) and (Height_Of_Marked_Area in Height_Range) and (Area in Area_Range):
-                    print("Your Answer is Correct")
+
+                if (StartX_Of_Marked_Area in X_P_Range) and (StartY_Of_Marked_Area in Y_P_Range) and (Width_Of_Marked_Area in Width_P_Range) and (Height_Of_Marked_Area in Height_P_Range) and (Area in Area_P_Range):
+                    print("Your Answer is Correct in positive Range")
+                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
+                    save_performance.save()
+                elif (StartX_Of_Marked_Area in X_N_Range) and (StartY_Of_Marked_Area in Y_N_Range) and (Width_Of_Marked_Area in Width_N_Range) and (Height_Of_Marked_Area in Height_N_Range) and (Area in Area_N_Range):
+                    print("Your Answer is Correct in negative Range")
                     save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
                     save_performance.save()
                 else:
