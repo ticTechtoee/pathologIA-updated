@@ -131,12 +131,12 @@ def ViewAnswerDemarcateQuestion(request,pk):
                     context = {'Demarcate_Question_List':List_of_Question[get_index] }
                     return render(request, 'DemarcateApp/StudentDemarcate.html', context)
                 else:
-                    print('No More Questions To Show')
+                    print('Fim')
                     request.session['Dindex'] = 0
-                    return HttpResponse('No More Questions To Show')
+                    return HttpResponse('Fim')
             else:
                 request.session['Dindex'] = 0
-                return HttpResponse('No More Questions To Show')
+                return HttpResponse('Fim')
                 print("No More Questions to show")
 
 
