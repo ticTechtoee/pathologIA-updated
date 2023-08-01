@@ -1,0 +1,16 @@
+<!-- student_results.html -->
+
+{% extends 'base.html' %} <!-- Assuming you have a base template that includes common elements like header, navigation, etc. -->
+
+{% block content %}
+  <h1>Your Results</h1>
+  <ul>
+    {% for result in results %}
+      <li>
+        Question Group: {{ result.Question_Group_Information }}
+        Score: {{ result.Score_Per_Question }}
+        Completed At: {{ result.Completed_At }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

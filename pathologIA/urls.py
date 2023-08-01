@@ -12,6 +12,7 @@ urlpatterns = [
     path('Students/', include('StudentsApp.urls')),
     path('Demarcate/', include('DemarcateApp.urls')),
     path('Prediction/', include('PredictionApp.urls')),
+    path('Results/', include('ResultsApp.urls')),
     path('Forum/', include('ForumApp.urls')),
     path('Cases/', include('CasesApp.urls')),
 ]

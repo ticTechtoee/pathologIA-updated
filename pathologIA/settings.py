@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'CasesApp.apps.CasesappConfig',
     'ImagesApp.apps.ImagesappConfig',
     'QuestionsApp.apps.QuestionsappConfig',
-    #'ResultsApp.apps.ResultsappConfig',
+    'ResultsApp.apps.ResultsappConfig',
     'VideosApp.apps.VideosappConfig',
     'StudentsApp.apps.StudentsappConfig',
     'DemarcateApp.apps.DemarcateappConfig',
