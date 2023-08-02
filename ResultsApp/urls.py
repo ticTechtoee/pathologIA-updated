@@ -5,4 +5,5 @@ app_name = 'ResultsApp'
 
 urlpatterns = [
     path('', views.ViewStudentResults, name='StudentsResultsView'),
+    path('SearchResult', views.ViewSearchStudentPerformance, name='SearchStudentPerformanceView'),
 ]
