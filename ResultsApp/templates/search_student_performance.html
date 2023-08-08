@@ -3,24 +3,43 @@
 {% extends 'base.html' %} <!-- Assuming you have a base template that includes common elements like header, navigation, etc. -->
 
 {% block content %}
-  <h1>Search Student Performance</h1>
-  <form method="get">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-  </form>
-  
-  {% if results %}
-    <h2>Search Results</h2>
-    <ul>
-      {% for result in results %}
-        <li>
-          Student: {{ result.Student_Information.username }}
-          Question Group: {{ result.Question_Group_Information }}
-          Score: {{ result.Score_Per_Question }}
-          Completed At: {{ result.Completed_At }}
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card mt-5">
+          <div class="card-header bg-primary text-white">
+            <h1 class="mb-0">Search Student Performance</h1>
+          </div>
+          <div class="card-body">
+            <form method="get" class="row g-2 align-items-center">
+              {% csrf_token %}
+              <div class="col-auto">
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Digite username">
+                  <label for="username" class="form-label">Digite username</label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </form>
+            
+            {% if results %}
+              <h2 class="my-4">Search Results</h2>
+              <ul class="list-group">
+                {% for result in results %}
+                  <li class="list-group-item">
+                    <strong>Student:</strong> {{ result.Student_Information.username }}<br>
+                    <strong>Question Group:</strong> {{ result.Question_Group_Information }}<br>
+                    <strong>Score:</strong> {{ result.Score_Per_Question }}<br>
+                    <strong>Completed At:</strong> {{ result.Completed_At }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

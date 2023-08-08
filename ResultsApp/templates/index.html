@@ -1,16 +1,18 @@
 <!-- student_results.html -->
 
-{% extends 'base.html' %} <!-- Assuming you have a base template that includes common elements like header, navigation, etc. -->
+{% extends 'base.html' %}
 
 {% block content %}
-  <h1>Your Results</h1>
-  <ul>
-    {% for result in results %}
-      <li>
-        Question Group: {{ result.Question_Group_Information }}
-        Score: {{ result.Score_Per_Question }}
-        Completed At: {{ result.Completed_At }}
-      </li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <h1 class="mt-4">Your Results</h1>
+    <ul class="list-group">
+      {% for result in results %}
+        <li class="list-group-item">
+          <strong>Question Group:</strong> {{ result.Question_Group_Information }}<br>
+          <strong>Score:</strong> {{ result.Score_Per_Question }}<br>
+          <strong>Completed At:</strong> {{ result.Completed_At }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 {% endblock %}

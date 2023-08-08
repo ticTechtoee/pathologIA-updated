@@ -190,15 +190,20 @@
 
             <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#"
               data-toggle="dropdown-submenu" aria-expanded="false"><span class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Results</a>
-            
-            <div class="dropdown-menu"><a class="dropdown-item text-warning display-4"
+              <div class="dropdown-menu">
+                {% if user.is_authenticated %}
+                {% if request.user.Role.Role_Type == "estudante" %}
+                <a class="dropdown-item text-warning display-4"
                 href="{% url 'ResultsApp:StudentsResultsView' %}">Estudante<br></a>
-
+                {% endif %}
+                {% if request.user.Role.Role_Type == "professor" %}
               <a class="dropdown-item text-warning display-4" href="{% url 'ResultsApp:SearchStudentPerformanceView' %}"
                 aria-expanded="false">
                 <p>Professor</p>
               </a>
               
+            {% endif %}
+            {% endif %}
             </div>
           </li>
 
