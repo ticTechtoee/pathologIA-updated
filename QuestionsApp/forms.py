@@ -5,7 +5,7 @@ from django import forms
 from django.db.models import Q
 
 class SelectQuestionTypeForm(forms.ModelForm):
-    Category = forms.ModelChoiceField(required=True, queryset=QuestionTypesModel.objects.all(),label="", empty_label="Selecione o tipo de pergunta", widget=forms.Select(attrs={'class': 'custom-select'}))
+    Category = forms.ModelChoiceField(required=True, queryset=QuestionTypesModel.objects.all(),label="", empty_label="Selecione o tipo de Questionário", widget=forms.Select(attrs={'class': 'custom-select'}))
     class Meta:
         model = QuestionTypesModel
         fields = ['Category']

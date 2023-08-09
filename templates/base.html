@@ -126,15 +126,19 @@
                   class="mobi-mbri mobi-mbri-contact-form mbr-iconfont mbr-iconfont-btn"></span>Questionários</a>
               {% if user.is_authenticated %}
               <!-- Submenu Estudante e Professor -->
-              <div class="dropdown-menu"><a class="dropdown-item text-warning display-4"
-                  href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
-
-                {% if not request.user.Role.Role_Type == "estudante" %}
-                {% if not request.user.Role.Role_Type == "convidado" %}
+              <div class="dropdown-menu">
+                
+                {% if request.user.Role.Role_Type == "estudante" %}                
+                <a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
+            {% endif %}
+                
+                {% if request.user.Role.Role_Type == "convidado" %}
+                
+                <a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
 
                 <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:SelectQuestiontypeView' %}"
                   aria-expanded="false">
-                  <p>Tipo de pergunta</p>
+                  <p>Tipo de Questionário</p>
                 </a>
                 <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}"
                   aria-expanded="false">
@@ -152,11 +156,35 @@
                   href="{% url 'DemarcateApp:CreateDemarcateQuestionView' %}" aria-expanded="false">
                   <p>Pergunta demarcar</p>
                 </a>
+                {% endif %}
+                {% if request.user.Role.Role_Type == "professor" %}
+
+                <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:SelectQuestiontypeView' %}"
+                  aria-expanded="false">
+                  <p>Tipo de Questionário</p>
+                </a>
+                <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionGroupView' %}"
+                  aria-expanded="false">
+                  <p>Criar Questionário</p>
+                </a>
+                <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateQuestionView' %}"
+                  aria-expanded="false">
+                  <p>Criar perguntas</p>
+                </a>
+                <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:CreateOptionView' %}"
+                  aria-expanded="false">
+                  <p>Criar Alternativas</p>
+                </a>
+                <a class="dropdown-item text-warning display-4"
+                  href="{% url 'DemarcateApp:CreateDemarcateQuestionView' %}" aria-expanded="false">
+                  <p>Pergunta demarcar</p>
+                </a>
+                {% endif %}
               </div>
             </li>
+            
             {% endif %}
-            {% endif %}
-            {% endif %}
+
             <!-- Menu Estudos -->
             <li class="nav-item dropdown"><a class="nav-link link dropdown-toggle text-warning display-4" href="#"
                 data-toggle="dropdown-submenu" aria-expanded="false"><span
