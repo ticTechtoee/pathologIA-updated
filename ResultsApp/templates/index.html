@@ -3,14 +3,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container">
-    <h1 class="mt-4">Your Results</h1>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+<div class="container">
+    <h1 class="mt-4">Resultados</h1>
     <ul class="list-group">
       {% for result in results %}
         <li class="list-group-item">
-          <strong>Question Group:</strong> {{ result.Question_Group_Information }}<br>
-          <strong>Score:</strong> {{ result.Score_Per_Question }}<br>
-          <strong>Completed At:</strong> {{ result.Completed_At }}
+          <strong>Questionário:</strong> {{ result.Question_Group_Information }}<br>
+          <strong>Pontuação:</strong> {{ result.Score_Per_Question }}<br>
+          <strong>Concluído em:</strong> {{ result.Completed_At }}
         </li>
       {% endfor %}
     </ul>
