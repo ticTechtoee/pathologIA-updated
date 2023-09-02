@@ -34,6 +34,10 @@
 
         <h2>{{Demarcate_Question_List.Related_Question}}</h2>
 
+        {% if is_wrong %}
+        <p>Your answer was wrong.</p>
+        {% endif %}
+
         <form action="" method="post">
             {% csrf_token %}
 

@@ -71,6 +71,9 @@ def ViewGetDemarcateQuestionnaireList(request):
 
 
 def ViewAnswerDemarcateQuestion(request,pk):
+
+    is_wrong = False
+
     List_of_Question = list(DemarcateQuestion.objects.filter(Related_Question__Group_Name_Of_Quesitons = pk))
     Get_Student_Information = CustomUserModel.objects.get(Id_User = request.user.Id_User)
     Get_Question_Information = None
@@ -97,7 +100,7 @@ def ViewAnswerDemarcateQuestion(request,pk):
 
             Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
 
-            Threshold = 30
+            Threshold = 10
             if get_index < len(List_of_Question):
                 
                 """Positive Range"""
@@ -119,16 +122,19 @@ def ViewAnswerDemarcateQuestion(request,pk):
                     print("Your Answer is Correct in positive Range")
                     save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
                     save_performance.save()
+                    is_wrong = False
                 elif (StartX_Of_Marked_Area in X_N_Range) and (StartY_Of_Marked_Area in Y_N_Range) and (Width_Of_Marked_Area in Width_N_Range) and (Height_Of_Marked_Area in Height_N_Range) and (Area in Area_N_Range):
                     print("Your Answer is Correct in negative Range")
                     save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
                     save_performance.save()
+                    is_wrong = False
                 else:
                     print("Your Answer is wrong")
                     save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 0.0)
                     save_performance.save()
+                    is_wrong = True
                 if get_index < len(List_of_Question):
-                    context = {'Demarcate_Question_List':List_of_Question[get_index] }
+                    context = {'Demarcate_Question_List':List_of_Question[get_index], 'is_wrong': is_wrong }
                     return render(request, 'DemarcateApp/StudentDemarcate.html', context)
                 else:
                     print('Fim')
@@ -140,5 +146,5 @@ def ViewAnswerDemarcateQuestion(request,pk):
                 print("No More Questions to show")
 
 
-    context = {'Demarcate_Question_List':List_of_Question[0] }
+    context = {'Demarcate_Question_List':List_of_Question[0], 'is_wrong': is_wrong }
     return render(request, 'DemarcateApp/StudentDemarcate.html', context)
