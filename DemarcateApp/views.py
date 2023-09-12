@@ -70,81 +70,116 @@ def ViewGetDemarcateQuestionnaireList(request):
     return render(request, 'DemarcateApp/StudentSelectQuestionnaire.html', context)
 
 
-def ViewAnswerDemarcateQuestion(request,pk):
-
-    is_wrong = False
-
-    List_of_Question = list(DemarcateQuestion.objects.filter(Related_Question__Group_Name_Of_Quesitons = pk))
-    Get_Student_Information = CustomUserModel.objects.get(Id_User = request.user.Id_User)
+def ViewAnswerDemarcateQuestion(request, pk):
+    List_of_Question = list(DemarcateQuestion.objects.filter(Related_Question__Group_Name_Of_Quesitons=pk))
+    Get_Student_Information = CustomUserModel.objects.get(Id_User=request.user.Id_User)
     Get_Question_Information = None
-    Get_Group_Information = QuestionGroupModel.objects.get(Id_QuestionGroup = pk)
+    Get_Group_Information = QuestionGroupModel.objects.get(Id_QuestionGroup=pk)
 
-    
-    if 'Dindex' not in request.session:
-        request.session['Dindex'] = 0
-    
-    get_index = int(request.session['Dindex'])
+    is_wrong = None
+
+        # Set DTries to 2 if it doesn't exist in the session
+    if 'DIndex' not in request.session or 'DTries' not in request.session:
+        request.session['DIndex'] = 0
+        request.session['DTries'] = 2
+
+    get_index = int(request.session.get('DIndex'))
+    Get_Question_Information = List_of_Question[get_index]
+
+    get_tries = request.session.get('DTries')
 
     if request.method == 'POST':
         if get_index < len(List_of_Question):
-            Get_Question_Information = List_of_Question[get_index]
-            
-            
-            get_index += 1
-            request.session['Dindex'] = get_index
-            
+ # Need To Shift this portion in a different function           
+ # ---------------------------------------------------
             StartX_Of_Marked_Area = request.POST.get('startX')
             StartY_Of_Marked_Area = request.POST.get('startY')
             Width_Of_Marked_Area = request.POST.get('width')
             Height_Of_Marked_Area = request.POST.get('height')
-
             Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
-
-            Threshold = 10
+            Threshold = 50  # Temp
             if get_index < len(List_of_Question):
-                
                 """Positive Range"""
-                X_P_Range = range((List_of_Question[get_index].StartX + Threshold),(List_of_Question[get_index].StartX),1)
-                Y_P_Range = range((List_of_Question[get_index].StartY + Threshold),(List_of_Question[get_index].StartY),1)
-                Width_P_Range = range((List_of_Question[get_index].Width + Threshold),(List_of_Question[get_index].Width),1)
-                Height_P_Range = range((List_of_Question[get_index].Height + Threshold),(List_of_Question[get_index].Height),1)
-                Area_P_Range = range((List_of_Question[get_index].Area + Threshold),(List_of_Question[get_index].Area),1)                
-                
+                X_P_Range = range((List_of_Question[get_index].StartX + Threshold),
+                                  (List_of_Question[get_index].StartX), 1)
+                Y_P_Range = range((List_of_Question[get_index].StartY + Threshold),
+                                  (List_of_Question[get_index].StartY), 1)
+                Width_P_Range = range((List_of_Question[get_index].Width + Threshold),
+                                      (List_of_Question[get_index].Width), 1)
+                Height_P_Range = range((List_of_Question[get_index].Height + Threshold),
+                                       (List_of_Question[get_index].Height), 1)
+                Area_P_Range = range((List_of_Question[get_index].Area + Threshold),
+                                     (List_of_Question[get_index].Area), 1)
+
                 """Negative Range"""
-                X_N_Range = range((List_of_Question[get_index].StartX - Threshold),(List_of_Question[get_index].StartX),1)
-                Y_N_Range = range((List_of_Question[get_index].StartY - Threshold),(List_of_Question[get_index].StartY),1)
-                Width_N_Range = range((List_of_Question[get_index].Width - Threshold),(List_of_Question[get_index].Width),1)
-                Height_N_Range = range((List_of_Question[get_index].Height - Threshold),(List_of_Question[get_index].Height),1)
-                Area_N_Range = range((List_of_Question[get_index].Area - Threshold),(List_of_Question[get_index].Area),1)
+                X_N_Range = range((List_of_Question[get_index].StartX - Threshold),
+                                  (List_of_Question[get_index].StartX), 1)
+                Y_N_Range = range((List_of_Question[get_index].StartY - Threshold),
+                                  (List_of_Question[get_index].StartY), 1)
+                Width_N_Range = range((List_of_Question[get_index].Width - Threshold),
+                                      (List_of_Question[get_index].Width), 1)
+                Height_N_Range = range((List_of_Question[get_index].Height - Threshold),
+                                       (List_of_Question[get_index].Height), 1)
+                Area_N_Range = range((List_of_Question[get_index].Area - Threshold),
+                                     (List_of_Question[get_index].Area), 1)
 
+# -------------------------------------------------------------------------------------------------------------------
 
-                if (StartX_Of_Marked_Area in X_P_Range) and (StartY_Of_Marked_Area in Y_P_Range) and (Width_Of_Marked_Area in Width_P_Range) and (Height_Of_Marked_Area in Height_P_Range) and (Area in Area_P_Range):
+                if (StartX_Of_Marked_Area in X_P_Range) and (StartY_Of_Marked_Area in Y_P_Range) and (
+                        Width_Of_Marked_Area in Width_P_Range) and (Height_Of_Marked_Area in Height_P_Range) and (
+                        Area in Area_P_Range):
+                    is_wrong = False
                     print("Your Answer is Correct in positive Range")
-                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
+                    save_performance = StudentPerfomranceInDemarcateQuizes(
+                        Student_Information=Get_Student_Information,
+                        Question_Information=Get_Question_Information.Related_Question,
+                        Question_Group_Information=Get_Group_Information,
+                        Score_Per_Question=5.0)
                     save_performance.save()
+                elif (StartX_Of_Marked_Area in X_N_Range) and (StartY_Of_Marked_Area in Y_N_Range) and (
+                        Width_Of_Marked_Area in Width_N_Range) and (Height_Of_Marked_Area in Height_N_Range) and (
+                        Area in Area_N_Range):
                     is_wrong = False
-                elif (StartX_Of_Marked_Area in X_N_Range) and (StartY_Of_Marked_Area in Y_N_Range) and (Width_Of_Marked_Area in Width_N_Range) and (Height_Of_Marked_Area in Height_N_Range) and (Area in Area_N_Range):
                     print("Your Answer is Correct in negative Range")
-                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 5.0)
+                    save_performance = StudentPerfomranceInDemarcateQuizes(
+                        Student_Information=Get_Student_Information,
+                        Question_Information=Get_Question_Information.Related_Question,
+                        Question_Group_Information=Get_Group_Information,
+                        Score_Per_Question=5.0)
                     save_performance.save()
-                    is_wrong = False
                 else:
                     print("Your Answer is wrong")
-                    save_performance = StudentPerfomranceInDemarcateQuizes(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information.Related_Question, Question_Group_Information = Get_Group_Information, Score_Per_Question = 0.0)
-                    save_performance.save()
                     is_wrong = True
-                if get_index < len(List_of_Question):
-                    context = {'Demarcate_Question_List':List_of_Question[get_index], 'is_wrong': is_wrong }
-                    return render(request, 'DemarcateApp/StudentDemarcate.html', context)
-                else:
-                    print('Fim')
-                    request.session['Dindex'] = 0
-                    return HttpResponse('Fim')
-            else:
-                request.session['Dindex'] = 0
-                return HttpResponse('Fim')
-                print("No More Questions to show")
+                    if get_tries is None:
+                        get_tries = request.session.get('DTries')
+                        get_tries = 2
+                    get_tries -= 1
+                    request.session['DTries'] = get_tries
+                    if get_tries == 0:
+                        get_index += 1
+                        request.session['DIndex'] = get_index
+                        request.session['DTries'] = 2
+
+                        if get_index >= len(List_of_Question):
+                            del request.session['DIndex']
+                            del request.session['DTries']
+                            return HttpResponse("No More Questions to show")
+
+                                          
+
+        if get_index >= len(List_of_Question):
+            request.session['DIndex'] = 0
+            request.session['DTries'] = 2
+            return HttpResponse("No More Questions to Show")
+        
+        else:
+            question = List_of_Question[get_index]
+            
+            context = {'Demarcate_Question_List': question, 'is_wrong': is_wrong}
+            return render(request, 'DemarcateApp/StudentDemarcate.html', context)
 
 
-    context = {'Demarcate_Question_List':List_of_Question[0], 'is_wrong': is_wrong }
+    context = {'Demarcate_Question_List': List_of_Question[get_index], 'is_wrong': is_wrong}
     return render(request, 'DemarcateApp/StudentDemarcate.html', context)
+
+
