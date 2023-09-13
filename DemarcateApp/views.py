@@ -78,6 +78,12 @@ def ViewAnswerDemarcateQuestion(request, pk):
 
     is_wrong = None
 
+    X_Range = False
+    Y_Range = False
+    Width_Range = False
+    Height_Range = False
+    Area_Range = False
+
         # Set DTries to 2 if it doesn't exist in the session
     if 'DIndex' not in request.session or 'DTries' not in request.session:
         request.session['DIndex'] = 0
@@ -97,19 +103,18 @@ def ViewAnswerDemarcateQuestion(request, pk):
             Width_Of_Marked_Area = request.POST.get('width')
             Height_Of_Marked_Area = request.POST.get('height')
             Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
-            Threshold = 50  # Temp
+            Threshold = 10  # Temp
             if get_index < len(List_of_Question):
                 """Positive Range"""
-                X_P_Range = range((List_of_Question[get_index].StartX + Threshold),
-                                  (List_of_Question[get_index].StartX), 1)
-                Y_P_Range = range((List_of_Question[get_index].StartY + Threshold),
-                                  (List_of_Question[get_index].StartY), 1)
-                Width_P_Range = range((List_of_Question[get_index].Width + Threshold),
-                                      (List_of_Question[get_index].Width), 1)
-                Height_P_Range = range((List_of_Question[get_index].Height + Threshold),
-                                       (List_of_Question[get_index].Height), 1)
-                Area_P_Range = range((List_of_Question[get_index].Area + Threshold),
-                                     (List_of_Question[get_index].Area), 1)
+                X_P_Range = range((List_of_Question[get_index].StartX), (List_of_Question[get_index].StartX  + Threshold), 1)
+                Y_P_Range = range((List_of_Question[get_index].StartY),
+                                  (List_of_Question[get_index].StartY + Threshold), 1)
+                Width_P_Range = range((List_of_Question[get_index].Width),
+                                      (List_of_Question[get_index].Width + Threshold), 1)
+                Height_P_Range = range((List_of_Question[get_index].Height),
+                                       (List_of_Question[get_index].Height + Threshold), 1)
+                Area_P_Range = range((List_of_Question[get_index].Area),
+                                     (List_of_Question[get_index].Area + Threshold), 1)
 
                 """Negative Range"""
                 X_N_Range = range((List_of_Question[get_index].StartX - Threshold),
@@ -124,23 +129,32 @@ def ViewAnswerDemarcateQuestion(request, pk):
                                      (List_of_Question[get_index].Area), 1)
 
 # -------------------------------------------------------------------------------------------------------------------
+                print("X Positive: " + str(X_P_Range) + " or " + str(X_N_Range))
+                print("Studnet X Area: " + str(StartX_Of_Marked_Area))
+                print("Y Positive: " + str(Y_P_Range) + " or " + str(Y_N_Range))
+                print("Studnet Y Area: " + str(StartY_Of_Marked_Area))
+                print("Width: " + str(Width_P_Range) + " or " + str(Width_N_Range))
+                print("Studnet Width: " + str(Width_Of_Marked_Area))
 
-                if (StartX_Of_Marked_Area in X_P_Range) and (StartY_Of_Marked_Area in Y_P_Range) and (
-                        Width_Of_Marked_Area in Width_P_Range) and (Height_Of_Marked_Area in Height_P_Range) and (
-                        Area in Area_P_Range):
+                print("Height: " + str(Height_P_Range) + " or " + str(Height_N_Range))
+                print("Student Height: " + str(Height_Of_Marked_Area))
+
+                print("Area: " + str(Area_P_Range) + " or " + str(Area_N_Range))
+                print("Student Area: " + str(Area))
+
+                if(StartX_Of_Marked_Area in X_P_Range) or (StartX_Of_Marked_Area in X_N_Range):
+                    X_Range = True
+                if (StartY_Of_Marked_Area in Y_P_Range) or (StartY_Of_Marked_Area in Y_N_Range):
+                    Y_Range = True
+                if (Width_Of_Marked_Area in Width_P_Range) or (Width_N_Range in Width_N_Range):
+                    Width_Range = True
+                if (Height_Of_Marked_Area in Height_P_Range) or (Height_Of_Marked_Area in Height_N_Range):
+                    Height_Range = True
+                if (Area in Area_P_Range) or (Area in Area_N_Range):
+                    Area_Range = True
+                if (X_Range) and (Y_Range) and (Width_Range) and (Height_Range) and (Area_Range):
                     is_wrong = False
-                    print("Your Answer is Correct in positive Range")
-                    save_performance = StudentPerfomranceInDemarcateQuizes(
-                        Student_Information=Get_Student_Information,
-                        Question_Information=Get_Question_Information.Related_Question,
-                        Question_Group_Information=Get_Group_Information,
-                        Score_Per_Question=5.0)
-                    save_performance.save()
-                elif (StartX_Of_Marked_Area in X_N_Range) and (StartY_Of_Marked_Area in Y_N_Range) and (
-                        Width_Of_Marked_Area in Width_N_Range) and (Height_Of_Marked_Area in Height_N_Range) and (
-                        Area in Area_N_Range):
-                    is_wrong = False
-                    print("Your Answer is Correct in negative Range")
+                    print("Your Answer is Correct")
                     save_performance = StudentPerfomranceInDemarcateQuizes(
                         Student_Information=Get_Student_Information,
                         Question_Information=Get_Question_Information.Related_Question,
@@ -164,9 +178,7 @@ def ViewAnswerDemarcateQuestion(request, pk):
                             del request.session['DIndex']
                             del request.session['DTries']
                             return HttpResponse("No More Questions to show")
-
-                                          
-
+               
         if get_index >= len(List_of_Question):
             request.session['DIndex'] = 0
             request.session['DTries'] = 2
