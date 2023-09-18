@@ -175,13 +175,14 @@ def ViewAnswerDemarcateQuestion(request, pk):
                         request.session['DTries'] = 2
 
                         if get_index >= len(List_of_Question):
-                            del request.session['DIndex']
-                            del request.session['DTries']
+                            return redirect('DemarcateApp:ResultView')
                             return HttpResponse("No More Questions to show")
                
         if get_index >= len(List_of_Question):
             request.session['DIndex'] = 0
             request.session['DTries'] = 2
+            return redirect('DemarcateApp:ResultView')
+
             return HttpResponse("No More Questions to Show")
         
         else:
@@ -195,3 +196,8 @@ def ViewAnswerDemarcateQuestion(request, pk):
     return render(request, 'DemarcateApp/StudentDemarcate.html', context)
 
 
+def ViewResult(request):
+    if 'DIndex' in request.session or 'DTries' in request.session:
+        del request.session['DIndex']
+        del request.session['DTries']
+    return render(request,'DemarcateApp/Result.html')

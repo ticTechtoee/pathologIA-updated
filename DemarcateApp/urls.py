@@ -9,5 +9,6 @@ urlpatterns = [
     path('CreateDemarcateArea/<str:pk>', views.ViewCreateDemarcateArea, name='CreateDemarcateAreaView'),
     path('SelectGroupName/', views.ViewGetDemarcateQuestionnaireList, name='GetDemarcateQuestionnaireListView'),
     path('AnswerQuestion/<str:pk>', views.ViewAnswerDemarcateQuestion, name='AnswerDemarcateQuestionView'),
+    path('Result/', views.ViewResult, name='ResultView'),
 
 ]
