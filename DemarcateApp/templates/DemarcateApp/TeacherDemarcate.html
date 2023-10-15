@@ -70,21 +70,11 @@
 
         var img = new Image();
         img.onload = function () {
-            var canvasRatio = canvas.width / canvas.height;
-            var imageRatio = img.width / img.height;
-            var newWidth, newHeight;
-
-            if (imageRatio > canvasRatio) {
-                newWidth = canvas.width;
-                newHeight = canvas.width / imageRatio;
-            } else {
-                newWidth = canvas.height * imageRatio;
-                newHeight = canvas.height;
-            }
-
-            canvas.height = newHeight;
-            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            canvas.width = img.width; // Set canvas width to match the image's width
+            canvas.height = img.height; // Set canvas height to match the image's height
+            ctx.drawImage(img, 0, 0, img.width, img.height); // Draw the image at its original size
         };
+        
         img.src = '{{ instance.Upload_Image.url }}';
 
         canvas.addEventListener('mousedown', function (e) {

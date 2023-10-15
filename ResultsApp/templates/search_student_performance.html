@@ -1,6 +1,4 @@
-<!-- search_student_performance.html -->
-
-{% extends 'base.html' %} <!-- Assuming you have a base template that includes common elements like header, navigation, etc. -->
+{% extends 'base.html' %}
 
 {% block content %}
   <div class="container">
@@ -8,35 +6,36 @@
       <div class="col-md-8">
         <div class="card mt-5">
           <div class="card-header bg-primary text-white">
-            <h1 class="mb-0">Pesquisar desempenho do aluno</h1>
+            <h1 class="mb-0">Search Student Performance</h1>
           </div>
           <div class="card-body">
             <form method="get" class="row g-2 align-items-center">
               {% csrf_token %}
               <div class="col-auto">
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="username" name="username" placeholder="Usuário">
-                  <label for="username" class="form-label">Usuário</label>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+                  <label for="username" class="form-label">Username</label>
                 </div>
               </div>
               <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Pesquisar</button>
+                <button type="submit" class="btn btn-primary">Search</button>
               </div>
-            </form>
+            </form
             
             {% if results %}
-              <h2 class="my-4">Pesquisar Resultados</h2>
+              <h2 class="my-4">Search Results</h2>
               <ul class="list-group">
                 {% for result in results %}
                   <li class="list-group-item">
-                    <strong>Estudante:</strong> {{ result.Student_Information.username }}<br>
-                    <strong>Questionário:</strong> {{ result.Question_Group_Information }}<br>
-                    <strong>Pontuação:</strong> {{ result.Score_Per_Question }}<br>
-                    <strong>Concluído em:</strong> {{ result.Completed_At }}
+                    <strong>Student:</strong> {{ result.Student_Information.username }}<br>
+                    <strong>Questionnaire Group:</strong> {{ result.Question_Group_Information }}<br>
+                    <strong>Total Score:</strong> {{ result.total_score }}<br>
+                    <strong>Completed At:</strong> {{ result.Completed_At|date:"F d, Y H:i" }}
                   </li>
                 {% endfor %}
               </ul>
             {% endif %}
+
           </div>
         </div>
       </div>

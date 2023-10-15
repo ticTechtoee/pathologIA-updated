@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from StudentsApp.models import StudentPerformance
 from .forms import StudentSearchForm
-
+from django.db.models import Sum
 
 def ViewStudentResults(request):
-    # Retrieve the student's results sorted by Question_Group_Information
-    student = request.user  # Assuming you are using Django's authentication system
-    results = StudentPerformance.objects.filter(Student_Information=student).order_by('Question_Group_Information')
-    
+    student = request.user
+    results = (
+        StudentPerformance.objects
+        .filter(Student_Information=student)
+        .values('Question_Group_Information', 'Completed_At')
+        .annotate(total_score=Sum('Score_Per_Question'))
+        .order_by('Question_Group_Information'))
+    print(results)
+
     return render(request, 'index.html', {'results': results})
 
 def ViewSearchStudentPerformance(request):
