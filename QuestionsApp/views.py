@@ -28,7 +28,7 @@ def ViewSelectQuestionType(request):
             return HttpResponse("Invalid question type")
 
         if question_type.Category == "Questões de Demarcação de Imagens":
-            return redirect('DemarcateApp:SelectImageView')
+            return redirect('QuestionsApp:CreateQuestionGroupView')
         elif question_type.Category == "Questões de múltipla escolha":
             return redirect("QuestionsApp:CreateQuestionGroupView")
         else:
