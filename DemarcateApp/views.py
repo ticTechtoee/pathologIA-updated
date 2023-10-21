@@ -102,8 +102,8 @@ def ViewAnswerDemarcateQuestion(request, pk):
             StartY_Of_Marked_Area = int(request.POST.get('startY'))
             Width_Of_Marked_Area = int(request.POST.get('width'))
             Height_Of_Marked_Area =int(request.POST.get('height'))
-            Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
-            Threshold = 200  # Temp
+            # Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
+            Threshold = 100  # Temp
             if get_index < len(List_of_Question):
                 """Positive Range"""
                 X_P_Range = range((List_of_Question[get_index].StartX), (List_of_Question[get_index].StartX  + Threshold), 1)
@@ -113,8 +113,8 @@ def ViewAnswerDemarcateQuestion(request, pk):
                                       (List_of_Question[get_index].Width + Threshold), 1)
                 Height_P_Range = range((List_of_Question[get_index].Height),
                                        (List_of_Question[get_index].Height + Threshold), 1)
-                Area_P_Range = range((List_of_Question[get_index].Area),
-                                     (List_of_Question[get_index].Area + Threshold), 1)
+                # Area_P_Range = range((List_of_Question[get_index].Area),
+                #                      (List_of_Question[get_index].Area + Threshold), 1)
 
                 """Negative Range"""
                 X_N_Range = range((List_of_Question[get_index].StartX - Threshold),
@@ -125,8 +125,8 @@ def ViewAnswerDemarcateQuestion(request, pk):
                                       (List_of_Question[get_index].Width), 1)
                 Height_N_Range = range((List_of_Question[get_index].Height - Threshold),
                                        (List_of_Question[get_index].Height), 1)
-                Area_N_Range = range((List_of_Question[get_index].Area - Threshold),
-                                     (List_of_Question[get_index].Area), 1)
+                # Area_N_Range = range((List_of_Question[get_index].Area - Threshold),
+                #                      (List_of_Question[get_index].Area), 1)
 
 # -------------------------------------------------------------------------------------------------------------------
                 print("X Positive: " + str(X_P_Range) + " or " + str(X_N_Range))
@@ -139,8 +139,8 @@ def ViewAnswerDemarcateQuestion(request, pk):
                 print("Height: " + str(Height_P_Range) + " or " + str(Height_N_Range))
                 print("Student Height: " + str(Height_Of_Marked_Area))
 
-                print("Area: " + str(Area_P_Range) + " or " + str(Area_N_Range))
-                print("Student Area: " + str(Area))
+                # print("Area: " + str(Area_P_Range) + " or " + str(Area_N_Range))
+                # print("Student Area: " + str(Area))
                 
                 # Check conditions and update variables
                 if (StartX_Of_Marked_Area in list(X_P_Range)) or (StartX_Of_Marked_Area in list(X_N_Range)):
@@ -155,12 +155,13 @@ def ViewAnswerDemarcateQuestion(request, pk):
                 if (Height_Of_Marked_Area in list(Height_P_Range)) or (Height_Of_Marked_Area in list(Height_N_Range)):
                     Height_Range = True
                     print("Height in Range")
-                if (Area in list(Area_P_Range)) or (Area in list(Area_N_Range)):
-                    Area_Range = True
-                    print("Area in Range")
+                # if (Area in list(Area_P_Range)) or (Area in list(Area_N_Range)):
+                #     Area_Range = True
+                #     print("Area in Range")
 
                 # Check if all conditions are met
-                if all([X_Range, Y_Range, Width_Range, Height_Range, Area_Range]):
+                # Area Range Removed
+                if all([X_Range, Y_Range, Width_Range, Height_Range]):
                     is_wrong = False
                     print("Your Answer is Correct")
                     save_performance = StudentPerfomranceInDemarcateQuizes(

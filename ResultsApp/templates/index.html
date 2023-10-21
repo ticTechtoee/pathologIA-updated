@@ -13,13 +13,13 @@
 <div class="container">
     <h1 class="mt-4">Resultados</h1>
     <ul class="list-group">
-      {% for result in results %}
-        <li class="list-group-item">
-          <strong>Questionário:</strong> {{ result.Question_Group_Information }}<br>
-          <strong>Pontuação:</strong> {{ result.Score_Per_Question }}<br>
-          <strong>Concluído em:</strong> {{ result.Completed_At }}
-        </li>
-      {% endfor %}
+        {% for group_info in Group_Information %}
+            <li class="list-group-item">
+                <strong>Questionário:</strong> {{ group_info.Question_Group_Information__Name_Of_Group }}<br>
+                <strong>Pontuação:</strong> {{ group_info.total_score }}<br>
+                <!-- <strong>Concluído em:</strong> {{ group_info.Completed_At }} -->
+            </li>
+        {% endfor %}
     </ul>
-  </div>
+</div>
 {% endblock %}
