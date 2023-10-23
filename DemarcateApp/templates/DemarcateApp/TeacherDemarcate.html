@@ -48,7 +48,7 @@
 
 
                 <select class="form-control" name="Question_List" required>
-                    <option value="">Select The Question Text</option>
+                    <option value="">Selecione o texto da pergunta</option>
                     {% for Question in List_of_Questions %}
                     <option value="{{Question.Id_Question}}">{{Question.Question_Text}}</option>
                     {% endfor %}
