@@ -5,14 +5,15 @@ from StudentsApp.models import StudentPerformance
 from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
 from django.urls import reverse
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse
+from django.db.models import Min, Sum
 
 def ViewSelectQuestionType(request):
     form = SelectQuestionTypeForm()
     if request.method == 'POST':
         form = SelectQuestionTypeForm(request.POST or None)
         selected_option = form['Category'].value()
-        
+
         try:
             question_type = QuestionTypesModel.objects.get(Id_Type_Question=selected_option)
         except QuestionTypesModel.DoesNotExist:
@@ -24,7 +25,7 @@ def ViewSelectQuestionType(request):
             return redirect("StudentsApp:GetQuestionnaireListView")
         else:
             return HttpResponse("Wrong Selection")
-    
+
     context = {'form': form}
     return render(request, 'QuestionsApp/SelectQuestionType.html', context)
 
@@ -87,8 +88,8 @@ def ViewGetQuestionsList(request, pk):
                 if get_index >= len(List_Of_Questions):
                     save_performance =StudentPerformance(Student_Information = Get_Student_Information, Question_Information = Get_Question_Information, Question_Group_Information = Get_Group_Information, Score_Per_Question = score)
                     save_performance.save()
-                    
 
+                    return redirect('StudentsApp:CurrentQuestionnaireResultView', pk)
                     return redirect('StudentsApp:ResultView')
                     return HttpResponse(f'You have got {score} out of {total_marks}')
                 else:
@@ -118,6 +119,8 @@ def ViewGetQuestionsList(request, pk):
         if get_index >= len(List_Of_Questions):
             request.session['index'] = 0
             request.session['tries'] = 2
+            return redirect('StudentsApp:CurrentQuestionnaireResultView', pk)
+
             return redirect('StudentsApp:ResultView')
             return HttpResponse(f'Não existem mais questões para exibir')
 
@@ -126,7 +129,8 @@ def ViewGetQuestionsList(request, pk):
         request.session['tries'] = 2
         final_marks += score
         context = {'score': score, 'total_marks': total_marks}
-        return render(request, 'StudentsApp/Result.html', context)
+        return redirect('StudentsApp:CurrentQuestionnaireResultView', pk)
+        #return render(request, 'StudentsApp/Result.html', context)
     else:
         List_Of_Options = MCQModel.objects.filter(Related_Question__Id_Question = List_Of_Questions[get_index].Id_Question)
         question = List_Of_Questions[get_index]
@@ -137,7 +141,36 @@ def ViewGetQuestionsList(request, pk):
         final_marks += score
         context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries'), 'current_score':score,  'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question': str(get_index), 'Total_marks':final_marks}
         return render(request, 'StudentsApp/GetQuestionsList.html', context)
-    
+
+def ViewCurrentQuestionnaireResult(request, pk):
+    # Get the earliest completed student performance for each question
+    total_marks = 0
+    get_result = StudentPerformance.objects.filter(
+        Question_Group_Information=pk
+    ).values(
+        'Question_Information'
+    ).annotate(
+        earliest_completion=Min('Completed_At'),
+        total_marks=Sum('Score_Per_Question')
+    ).values(
+        'earliest_completion', 'Question_Information', 'total_marks'
+    ).order_by('earliest_completion')
+
+    # Fetch the corresponding StudentPerformance objects and calculate total marks
+    earliest_performances = [
+        StudentPerformance.objects.filter(
+            Question_Group_Information=pk,
+            Question_Information=result['Question_Information'],
+            Completed_At=result['earliest_completion']
+        ).first()
+        for result in get_result
+    ]
+
+    # Calculate the total marks only for the selected objects
+    total_marks = sum(result['total_marks'] for result in get_result)
+
+    context = {'Temp_Result': earliest_performances, 'Total_Marks': total_marks}
+    return render(request, 'StudentsApp/CurrentQuestionnaireResult.html', context)
 def ViewResult(request):
     if 'index' in request.session or 'tries' in request.session:
         del request.session['index']
