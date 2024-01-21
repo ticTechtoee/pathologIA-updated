@@ -127,13 +127,13 @@
               {% if user.is_authenticated %}
               <!-- Submenu Estudante e Professor -->
               <div class="dropdown-menu">
-                
-                {% if request.user.Role.Role_Type == "estudante" %}                
+
+                {% if request.user.Role.Role_Type == "estudante" %}
                 <a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
             {% endif %}
-                
+
                 {% if request.user.Role.Role_Type == "convidado" %}
-                
+
                 <a class="dropdown-item text-warning display-4" href="{% url 'StudentsApp:SelectQuestionTypeView' %}">Estudante<br></a>
 
                 <a class="dropdown-item text-warning display-4" href="{% url 'QuestionsApp:SelectQuestiontypeView' %}"
@@ -182,7 +182,7 @@
                 {% endif %}
               </div>
             </li>
-            
+
             {% endif %}
 
             <!-- Menu Estudos -->
@@ -225,11 +225,11 @@
                 href="{% url 'ResultsApp:StudentsResultsView' %}">Estudante<br></a>
                 {% endif %}
                 {% if request.user.Role.Role_Type == "professor" %}
-              <a class="dropdown-item text-warning display-4" href="{% url 'ResultsApp:SearchStudentPerformanceView' %}"
+              <a class="dropdown-item text-warning display-4" href="{% url 'ResultsApp:GetQuestionnaireView' %}"
                 aria-expanded="false">
                 <p>Professor</p>
               </a>
-              
+
             {% endif %}
             {% endif %}
             </div>
