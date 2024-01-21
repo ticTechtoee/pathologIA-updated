@@ -4,9 +4,6 @@ from QuestionsApp.forms import SelectQuestionTypeForm
 from StudentsApp.models import StudentPerformance
 from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter, landscape
-
 
 from django.urls import reverse
 from django.http import HttpResponse
