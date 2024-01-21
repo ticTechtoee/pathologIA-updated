@@ -27,9 +27,49 @@ def ViewGetQuestionnaire(request):
         Completed_At__in=earliest_student_performances.values('earliest_completed_at')
     )
 
+# For Demarcate Questions Results
+
+        # Step 2: Use those QuestionGroupModel instances to filter and get the earliest StudentPerformance objects
+    earliest_student_performances = StudentPerfomranceInDemarcateQuizes.objects.filter(
+        Question_Group_Information__in=question_groups_created_by_user
+    ).values('Question_Group_Information').annotate(
+        earliest_completed_at=Min('Completed_At')
+    ).values('earliest_completed_at', 'Question_Group_Information')
+
+    # Step 3: Fetch the corresponding StudentPerformance objects
+    student_performances_demarcate = StudentPerfomranceInDemarcateQuizes.objects.filter(
+        Question_Group_Information__in=earliest_student_performances.values('Question_Group_Information'),
+        Completed_At__in=earliest_student_performances.values('earliest_completed_at')
+    )
+
+    context['student_performances_demarcate'] = student_performances_demarcate
+
+
     context['student_performances'] = student_performances
 
     return render(request, 'ResultsApp/Get_Questionnaire.html', context)
+
+
+
+
+
+
+def ViewGetStudentDemarcateDoneQuestionnaire(request, pk):
+    context = {}
+
+    # Retrieve the QuestionGroupModel instance based on pk
+    question_group = QuestionGroupModel.objects.get(pk=pk)
+
+    # Get the names of students who attempted questions from the specified QuestionGroup
+    student_names = StudentPerfomranceInDemarcateQuizes.objects.filter(
+        Question_Group_Information=question_group
+    ).values_list('Student_Information__username', flat=True).distinct()
+
+    context['student_names'] = student_names
+    context['question_group'] = question_group
+    return render(request, 'ResultsApp/StudentDemarcateDoneQuestionnaire.html', context)
+
+
 
 def ViewGetStudentDoneQuestionnaire(request, pk):
     context = {}

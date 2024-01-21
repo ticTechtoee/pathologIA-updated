@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from QuestionsApp.models import QuestionTypesModel,QuestionsModel, QuestionGroupModel,MCQModel
 from QuestionsApp.forms import SelectQuestionTypeForm
-from StudentsApp.models import StudentPerformance
+from StudentsApp.models import StudentPerformance, StudentPerfomranceInDemarcateQuizes
 from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
 
@@ -160,6 +160,7 @@ def ViewCurrentQuestionnaireResult(request, pk):
     ).order_by('earliest_completion')
 
     # Fetch the corresponding StudentPerformance objects and calculate total marks
+
     earliest_performances = [
         StudentPerformance.objects.filter(
             Question_Group_Information=pk,
@@ -174,6 +175,39 @@ def ViewCurrentQuestionnaireResult(request, pk):
 
     context = {'Temp_Result': earliest_performances, 'Total_Marks': total_marks}
     return render(request, 'StudentsApp/CurrentQuestionnaireResult.html', context)
+
+
+
+def ViewCurrentDemarcateQuestionnaireResult(request, pk):
+    # Get the earliest completed student performance for each question
+    total_marks = 0
+    get_result = StudentPerfomranceInDemarcateQuizes.objects.filter(
+        Question_Group_Information=pk
+    ).values(
+        'Question_Information'
+    ).annotate(
+        earliest_completion=Min('Completed_At'),
+        total_marks=Sum('Score_Per_Question')
+    ).values(
+        'earliest_completion', 'Question_Information', 'total_marks'
+    ).order_by('earliest_completion')
+
+    # Fetch the corresponding StudentPerformance objects and calculate total marks
+
+    earliest_performances = [
+        StudentPerfomranceInDemarcateQuizes.objects.filter(
+            Question_Group_Information=pk,
+            Question_Information=result['Question_Information'],
+            Completed_At=result['earliest_completion']
+        ).first()
+        for result in get_result
+    ]
+
+    # Calculate the total marks only for the selected objects
+    total_marks = sum(result['total_marks'] for result in get_result)
+
+    context = {'Temp_Result': earliest_performances, 'Total_Marks': total_marks}
+    return render(request, 'StudentsApp/CurrentDemarcateQuestionnaireResult.html', context)
 
 def ViewResult(request):
     if 'index' in request.session or 'tries' in request.session:

@@ -8,6 +8,7 @@ urlpatterns = [
     path('GetQuestionnaireList/', views.ViewGetQuestionnaireList, name='GetQuestionnaireListView'),
     path('GetQuestionList/<str:pk>', views.ViewGetQuestionsList, name='GetQuestionsListView'),
     path('ResultCard/<str:pk>', views.ViewCurrentQuestionnaireResult, name='CurrentQuestionnaireResultView'),
+    path('ResultCardDemarcate/<str:pk>', views.ViewCurrentDemarcateQuestionnaireResult, name='CurrentDemarcateQuestionnaireResultView'),
     path('Result/', views.ViewResult, name='ResultView'),
 
     ]

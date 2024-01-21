@@ -25,7 +25,19 @@
           {% endfor %}
         </ul>
       </div>
+      <!-- right column -->
+      <div class="col-md-6">
+        <h1 class="mt-4">Demarcate Question</h1>
+        <ul class="list-group">
+          {% for group_info_D in student_performances_demarcate %}
+          <li class="list-group-item">
+            <strong>Questionário:</strong><a href="{% url 'ResultsApp:GetStudentDemarcateDoneQuestionnaireView' group_info_D.Question_Group_Information.Id_QuestionGroup  %}">{{ group_info_D.Question_Group_Information }}</a><br>
 
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
     {% endif %}
   </div>
 </div>

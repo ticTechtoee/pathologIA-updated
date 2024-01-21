@@ -44,10 +44,10 @@ def ViewCreateDemarcateArea(request, pk):
         StartY_Of_Marked_Area = request.POST.get('startY')
 
         Total_Area = abs(int(Width_Of_Marked_Area) * int(Height_Of_Marked_Area))
-        
+
         Question_ID = request.POST.get("Question_List")
         Question_Instance = DemarcateQuestionsModel.objects.get(Id_Question=str(Question_ID))
-        
+
         Create_Object = DemarcateQuestion(StartX = StartX_Of_Marked_Area,StartY = StartY_Of_Marked_Area,Width = Width_Of_Marked_Area ,Height = Height_Of_Marked_Area, Area = Total_Area, Question_Image = Image_Instance, Related_Question = Question_Instance)
         Create_Object.save()
 
@@ -104,11 +104,11 @@ def ViewAnswerDemarcateQuestion(request, pk):
 
     # Information Regarding the Total Marks of a specific Question
     Question_Total_Marks = Get_Question_Information.Related_Question.Question_Marks
-    
+
     print(Question_Total_Marks)
     if request.method == 'POST':
         if get_index < len(List_of_Question):
- # Need To Shift this portion in a different function           
+ # Need To Shift this portion in a different function
  # ---------------------------------------------------
             StartX_Of_Marked_Area = int(request.POST.get('startX'))
             StartY_Of_Marked_Area = int(request.POST.get('startY'))
@@ -171,7 +171,7 @@ def ViewAnswerDemarcateQuestion(request, pk):
                     request.session['DIndex'] = get_index
                     request.session['DTries'] = 2
                     if get_index >= len(List_of_Question):
-                        return redirect('DemarcateApp:ResultView')
+                        return redirect('StudentsApp:CurrentDemarcateQuestionnaireResultView', pk)
                 else:
                     print("Your Answer is wrong")
                     is_wrong = True
@@ -188,22 +188,23 @@ def ViewAnswerDemarcateQuestion(request, pk):
                         Question_Group_Information=Get_Group_Information,
                         Score_Per_Question=Score_Per_Question)
                         save_performance.save()
-                        
+
                         get_index += 1
                         request.session['DIndex'] = get_index
                         request.session['DTries'] = 2
-                        
-                    
+
+
 
                         if get_index >= len(List_of_Question):
+                            return redirect('StudentsApp:CurrentDemarcateQuestionnaireResultView', pk)
                             return redirect('DemarcateApp:ResultView')
-                                           
+
         if get_index >= len(List_of_Question):
             request.session['DIndex'] = 0
             request.session['DTries'] = 2
-            return redirect('DemarcateApp:ResultView')         
+            return redirect('StudentsApp:CurrentDemarcateQuestionnaireResultView', pk)
         else:
-            question = List_of_Question[get_index]           
+            question = List_of_Question[get_index]
             context = {'Demarcate_Question_List': question, 'is_wrong': is_wrong, 'Total_Score': Total_Score_Per_Questionnaire, 'Total_Questions': str(len(List_of_Question)), 'current_question':get_index}
             return render(request, 'DemarcateApp/StudentDemarcate.html', context)
 

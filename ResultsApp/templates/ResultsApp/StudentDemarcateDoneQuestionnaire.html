@@ -1,0 +1,32 @@
+<!-- Get the Questionnaire Created By the Current Logged In Teacher -->
+<!-- search_student_performance.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+  <div class="justify-content-center">
+
+    {% if student_names %}
+    <div class="row">
+      <!-- Left Column -->
+      <div class="col-md-6">
+        <h1 class="mt-4">Student Names Demarcate</h1>
+        <ul class="list-group">
+          {% for student_info in student_names %}
+          <li class="list-group-item">
+            <strong>Student:</strong><a href="{% url 'ResultsApp:SearchStudentPerformanceView' student_info %}">{{ student_info }}</a><br>
+
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
