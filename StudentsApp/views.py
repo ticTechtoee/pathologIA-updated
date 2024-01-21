@@ -4,6 +4,10 @@ from QuestionsApp.forms import SelectQuestionTypeForm
 from StudentsApp.models import StudentPerformance
 from AccountsApp.models import CustomUserModel
 from .forms import GetQuestionnaireListForm
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, landscape
+
+
 from django.urls import reverse
 from django.http import HttpResponse
 from django.db.models import Min, Sum
@@ -142,6 +146,8 @@ def ViewGetQuestionsList(request, pk):
         context = {'Question':question, 'Options':List_Of_Options, 'wrong_answer':wrong_answer, 'tries': request.session.get('tries'), 'current_score':score,  'Questionnaire_Name': Get_Group_Information, 'Total_Questions': str(len(List_Of_Questions)), 'current_question': str(get_index), 'Total_marks':final_marks}
         return render(request, 'StudentsApp/GetQuestionsList.html', context)
 
+# Generate PDF
+
 def ViewCurrentQuestionnaireResult(request, pk):
     # Get the earliest completed student performance for each question
     total_marks = 0
@@ -171,6 +177,7 @@ def ViewCurrentQuestionnaireResult(request, pk):
 
     context = {'Temp_Result': earliest_performances, 'Total_Marks': total_marks}
     return render(request, 'StudentsApp/CurrentQuestionnaireResult.html', context)
+
 def ViewResult(request):
     if 'index' in request.session or 'tries' in request.session:
         del request.session['index']
